@@ -8,19 +8,21 @@ import { MainFooterTabBar } from "../MainFooterTabNav/MainFooterTabBar";
 import { MainFooterTabBarIcon } from "./MainFooterTabBarIcon";
 import { MainFooterTabBarLabel } from "./MainFooterTabBarLabel";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Text } from "native-base";
+import { LabelPosition } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
 
 // Create the root tab navigator.
 const RootTab = createBottomTabNavigator<RootTabParamList>();
 
 export function MainFooterTabNav() {
   return (
-    <NavigationContainer>
+    <>
       <RootTab.Navigator tabBar={(props) => <MainFooterTabBar {...props} />}>
         <RootTab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarIcon: ({ focused }: { focused: boolean }) => {
+            tabBarIcon: ({ focused }) => {
               return (
                 <MainFooterTabBarIcon
                   focused={focused}
@@ -30,13 +32,33 @@ export function MainFooterTabNav() {
                 />
               );
             },
-            tabBarLabel: ({ focused }: { focused: boolean }) => {
+            tabBarLabel: ({ focused }) => {
               return <MainFooterTabBarLabel focused={focused} label="Home" />;
             },
           }}
         />
-        <RootTab.Screen name="Account" component={AccountScreen} />
+        <RootTab.Screen
+          name="Account"
+          component={AccountScreen}
+          options={{
+            tabBarIcon: ({ focused }) => {
+              return (
+                <MainFooterTabBarIcon
+                  focused={focused}
+                  iconLibrary={MaterialCommunityIcons}
+                  iconName="account"
+                  iconFocusedName="account-outline"
+                />
+              );
+            },
+            tabBarLabel: ({ focused }) => {
+              return (
+                <MainFooterTabBarLabel focused={focused} label="Account" />
+              );
+            },
+          }}
+        />
       </RootTab.Navigator>
-    </NavigationContainer>
+    </>
   );
 }

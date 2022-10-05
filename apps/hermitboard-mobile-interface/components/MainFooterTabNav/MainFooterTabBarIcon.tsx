@@ -9,8 +9,7 @@ export function MainFooterTabBarIcon(props: {
   return (
     <Icon
       as={props.iconLibrary}
-      name={
-        props.focused === false ? props.iconName : props.iconFocusedName
-      }></Icon>
+      name={props.focused ? props.iconFocusedName : props.iconName}
+      color={props.focused ? "blue.700" : "blue.300"}></Icon>
   );
 }

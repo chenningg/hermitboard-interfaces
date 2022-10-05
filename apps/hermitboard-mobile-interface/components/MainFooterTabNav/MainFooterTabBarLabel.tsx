@@ -10,5 +10,7 @@ export function MainFooterTabBarLabel(props: {
     return <></>;
   }
 
-  return <Text>{props.label}</Text>;
+  return (
+    <Text color={props.focused ? "green.300" : "green.700"}>{props.label}</Text>
+  );
 }

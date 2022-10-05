@@ -6,6 +6,8 @@ import {
   fetchExchange,
   cacheExchange,
 } from "urql";
+import { MainFooterTabNav } from "./components/MainFooterTabNav/MainFooterTabNav";
+import { NavigationContainer } from "@react-navigation/native";
 
 const client = createClient({
   url: "http://localhost:5050/api",
@@ -14,8 +16,10 @@ const client = createClient({
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <Box bg="teal.400" rounded="xl" safeArea></Box>
-    </NativeBaseProvider>
+    <NavigationContainer>
+      <NativeBaseProvider>
+        <MainFooterTabNav></MainFooterTabNav>
+      </NativeBaseProvider>
+    </NavigationContainer>
   );
 }
