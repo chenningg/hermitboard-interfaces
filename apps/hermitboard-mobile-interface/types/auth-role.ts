@@ -1,15 +1,16 @@
-enum AuthTypeValue {
-  Local = "LOCAL",
-  Google = "GOOGLE",
-  Facebook = "FACEBOOK",
-  Apple = "APPLE",
+enum AuthRoleValue {
+  Demo = "DEMO",
+  Free = "FREE",
+  Plus = "PLUS",
+  Pro = "PRO",
+  Enterprise = "ENTERPRISE",
+  Support = "SUPPORT",
+  Admin = "ADMIN",
+  SuperAdmin = "SUPER_ADMIN",
 }
 
-type AuthType = {
-  id: string,
-  createdAt: Date,
-  updatedAt: Date,
-  deletedAt: Date,
-  value: AuthTypeValue,
-  description?: string,
-}
+type AuthRole = {
+  id: string;
+  value: AuthRoleValue;
+  description?: string;
+};

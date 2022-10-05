@@ -10,9 +10,6 @@ enum AssetClassValue {
 
 type AssetClass = {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
   value: AssetClassValue;
   description?: string;
 };

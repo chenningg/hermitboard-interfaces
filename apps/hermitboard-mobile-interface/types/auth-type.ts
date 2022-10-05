@@ -6,10 +6,7 @@ enum AuthTypeValue {
 }
 
 type AuthType = {
-  id: string,
-  createdAt: Date,
-  updatedAt: Date,
-  deletedAt: Date,
-  value: AuthTypeValue,
-  description?: string,
-}
+  id: string;
+  value: AuthTypeValue;
+  description?: string;
+};

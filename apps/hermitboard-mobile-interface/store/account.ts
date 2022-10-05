@@ -4,16 +4,19 @@ import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { Appearance } from "react-native";
 
-export interface AppSettingsState {
-  colorMode: "dark" | "light";
+export interface AccountState {
+  id: string;
+  nickname: string;
+  email: string;
 }
 
-export const useAppSettingsStore = create<AppSettingsState>()(
+export const useAccountStore = create<AccountState>()(
   immer(
     persist(
       (set) => ({
-        // Set colorMode to be the system settings else default to dark mode.
-        colorMode: Appearance.getColorScheme() ?? "dark",
+        id: "",
+        nickname: "",
+        email: "",
       }),
       {
         name: "app-settings-storage",
