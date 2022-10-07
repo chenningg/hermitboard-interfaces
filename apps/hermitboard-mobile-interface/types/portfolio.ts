@@ -1,4 +1,6 @@
-type Portfolio = {
+import { Connection } from "./connection";
+
+export type Portfolio = {
   id: string;
   name: string;
   isPublic: boolean;

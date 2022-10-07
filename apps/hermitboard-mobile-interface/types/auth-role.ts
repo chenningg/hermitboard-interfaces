@@ -1,4 +1,4 @@
-enum AuthRoleValue {
+export enum AuthRoleValue {
   Demo = "DEMO",
   Free = "FREE",
   Plus = "PLUS",
@@ -9,7 +9,7 @@ enum AuthRoleValue {
   SuperAdmin = "SUPER_ADMIN",
 }
 
-type AuthRole = {
+export type AuthRole = {
   id: string;
   value: AuthRoleValue;
   description?: string;

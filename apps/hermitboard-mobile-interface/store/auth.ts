@@ -2,22 +2,69 @@ import create from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { secureStorage } from "./secure-storage";
+import { AuthRoleValue } from "../types/auth-role";
 
-export interface AuthState {
-  token: string;
-  refreshToken: string;
+export interface AuthStoreState {
+  sessionToken?: string;
+  userID?: string;
+  authRoles?: AuthRoleValue[];
+  isLoggedIn: boolean;
+  _hasHydrated: boolean;
 }
 
-export const useAuthStore = create<AuthState>()(
+export interface AuthStoreActions {
+  updateAuthState: (
+    sessionToken: string,
+    userID: string,
+    authRoles: AuthRoleValue[]
+  ) => void;
+  reset: () => void;
+  setHasHydrated: (status: boolean) => void;
+}
+
+const initialState: AuthStoreState = {
+  sessionToken: undefined,
+  userID: undefined,
+  authRoles: undefined,
+  isLoggedIn: false,
+  _hasHydrated: false,
+};
+
+export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
   immer(
     persist(
       (set) => ({
-        token: "",
-        refreshToken: "",
+        ...initialState,
+        updateAuthState: (
+          sessionToken: string,
+          userID: string,
+          authRoles: AuthRoleValue[]
+        ) => {
+          set({
+            sessionToken: sessionToken,
+            userID: userID,
+            authRoles: authRoles,
+            isLoggedIn:
+              sessionToken && userID && authRoles && authRoles.length > 0
+                ? true
+                : false,
+          });
+        },
+        reset: () => {
+          set(initialState);
+        },
+        setHasHydrated: (status) => {
+          set({
+            _hasHydrated: status,
+          });
+        },
       }),
       {
         name: "auth-storage",
         getStorage: () => secureStorage,
+        onRehydrateStorage: () => (state) => {
+          state?.setHasHydrated(true);
+        },
       }
     )
   )

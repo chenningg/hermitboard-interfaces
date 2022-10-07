@@ -1,4 +1,4 @@
-enum AssetClassValue {
+export enum AssetClassValue {
   CashOrCashEquivalent = "CASH_OR_CASH_EQUIVALENT",
   Commodity = "COMMODITY",
   Cryptocurrency = "CRYPTOCURRENCY",
@@ -8,7 +8,7 @@ enum AssetClassValue {
   RealEstate = "REAL_ESTATE",
 }
 
-type AssetClass = {
+export type AssetClass = {
   id: string;
   value: AssetClassValue;
   description?: string;
