@@ -39,6 +39,7 @@ export function LoginScreen({
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>();
+
   const onSubmit = handleSubmit((data) => {
     console.log("submiting with ", data);
   });
@@ -66,7 +67,7 @@ export function LoginScreen({
               >
                 <Flex
                   pt="1/5"
-                  mb="1/4"
+                  mb="1/3"
                   justifyContent="center"
                   alignItems="center"
                 >
@@ -86,7 +87,31 @@ export function LoginScreen({
 
                 <VStack space={5}>
                   <FormControl isRequired isInvalid={"username" in errors}>
-                    <Input placeholder="Email/Nickname" w="100%" />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <Input
+                          onBlur={onBlur}
+                          placeholder="Email/Nickname"
+                          onChangeText={(val) => onChange(val)}
+                          w="100%"
+                          value={value}
+                        />
+                      )}
+                      name="username"
+                      rules={{
+                        required: "Email/Nickname is required",
+                        minLength: {
+                          value: 3,
+                          message:
+                            "Email/Nickname must be at least 3 characters",
+                        },
+                      }}
+                      defaultValue=""
+                    />
+                    <FormControl.ErrorMessage>
+                      {errors.username?.message}
+                    </FormControl.ErrorMessage>
                   </FormControl>
                   <VStack>
                     <FormControl
@@ -94,7 +119,30 @@ export function LoginScreen({
                       isRequired
                       isInvalid={"password" in errors}
                     >
-                      <Input placeholder="Password" w="100%" />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                          <Input
+                            onBlur={onBlur}
+                            placeholder="Password"
+                            onChangeText={(val) => onChange(val)}
+                            w="100%"
+                            value={value}
+                          />
+                        )}
+                        name="password"
+                        rules={{
+                          required: "Password is required",
+                          minLength: {
+                            value: 8,
+                            message: "Password must be at least 8 characters",
+                          },
+                        }}
+                        defaultValue=""
+                      />
+                      <FormControl.ErrorMessage>
+                        {errors.password?.message}
+                      </FormControl.ErrorMessage>
                     </FormControl>
                     <Link
                       alignSelf="flex-end"
@@ -123,6 +171,7 @@ export function LoginScreen({
                   h="12"
                   borderRadius="full"
                   bg={colorMode === "light" ? "primary.600" : "primary.800"}
+                  onPress={onSubmit}
                 >
                   Log in
                 </Button>

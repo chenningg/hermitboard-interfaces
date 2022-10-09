@@ -69,7 +69,7 @@ export function RegisterScreen({
               >
                 <Flex
                   pt="1/5"
-                  mb="1/4"
+                  mb="1/3"
                   justifyContent="center"
                   alignItems="center"
                 >
