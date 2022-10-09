@@ -13,7 +13,7 @@ import { Entypo } from "@expo/vector-icons";
 import { useAppSettingsStore } from "../../store/app-settings";
 import { ColorType } from "native-base/lib/typescript/components/types";
 
-export function StackHeader({
+export function NotSignedInRootStackHeader({
   visible,
   navigation,
   tintColor,

@@ -2,7 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NotSignedInRootStackParamList } from "../../navigation/types";
 import { LoginScreen } from "../../views/LoginScreen";
 import { RegisterScreen } from "../../views/RegisterScreen";
-import { StackHeader } from "../stack-header/StackHeader";
+import { NotSignedInRootStackHeader } from "./NotSignedInRootStackHeader";
 import React from "react";
 import { ForgotPasswordScreen } from "../../views/ForgotPasswordScreen";
 
@@ -23,10 +23,10 @@ export function NotSignedInRootStackNav() {
         component={LoginScreen}
         options={{
           header: (props) =>
-            StackHeader({
+            NotSignedInRootStackHeader({
               ...props,
               visible: false,
-              bgColor: { light: "coolGray.100", dark: "coolGray.800" },
+              bgColor: { light: "coolGray.50", dark: "coolGray.800" },
               tintColor: { light: "darkText", dark: "lightText" },
             }),
         }}
@@ -36,10 +36,10 @@ export function NotSignedInRootStackNav() {
         component={RegisterScreen}
         options={{
           header: (props) =>
-            StackHeader({
+            NotSignedInRootStackHeader({
               ...props,
               visible: true,
-              bgColor: { light: "coolGray.100", dark: "coolGray.800" },
+              bgColor: { light: "coolGray.50", dark: "coolGray.800" },
               tintColor: { light: "darkText", dark: "lightText" },
               direction: "top",
             }),
@@ -50,10 +50,10 @@ export function NotSignedInRootStackNav() {
         component={ForgotPasswordScreen}
         options={{
           header: (props) =>
-            StackHeader({
+            NotSignedInRootStackHeader({
               ...props,
               visible: true,
-              bgColor: { light: "coolGray.100", dark: "coolGray.800" },
+              bgColor: { light: "coolGray.50", dark: "coolGray.800" },
               tintColor: { light: "darkText", dark: "lightText" },
             }),
         }}

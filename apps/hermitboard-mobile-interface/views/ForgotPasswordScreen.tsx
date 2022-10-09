@@ -30,7 +30,6 @@ export function ForgotPasswordScreen({
   route,
   navigation,
 }: NotSignedInRootStackForgotPasswordScreenProps) {
-  // Color mode and greeting message.
   const colorMode = useAppSettingsStore((state) => state.colorMode);
 
   const {
@@ -46,14 +45,14 @@ export function ForgotPasswordScreen({
   return (
     <>
       <StatusBar
-        backgroundColor={colorMode === "light" ? "#f3f4f6" : "#111827"}
+        backgroundColor={colorMode === "light" ? "#f9fafb" : "coolGray.900"}
         barStyle={colorMode === "light" ? "dark-content" : "light-content"}
       ></StatusBar>
 
       <Box
         w="100%"
         h="100%"
-        bg={colorMode === "light" ? "coolGray.100" : "coolGray.900"}
+        bg={colorMode === "light" ? "coolGray.50" : "coolGray.900"}
       >
         <Center>
           <Container w="100%" h="100%" safeArea>

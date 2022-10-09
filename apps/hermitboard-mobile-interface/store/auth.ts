@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { secureStorage } from "./secure-storage";
 import { AuthRoleValue } from "../types/auth-role";
+import { SESSION_TOKEN } from "@env";
 
 export interface AuthStoreState {
   sessionToken?: string;
@@ -72,6 +73,11 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
           // Disable rehydration temporarily.
           // TODO: REMOVE!
           state?.reset();
+          state?.updateAuthState(
+            SESSION_TOKEN,
+            "ACC_01GEGJGGJHXB9FWZ84SPKCVFG8",
+            [AuthRoleValue.Pro]
+          );
           state?.setHasHydrated(true);
         },
       }

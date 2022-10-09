@@ -1,10 +1,10 @@
 import { Box, Text } from "native-base";
 import React from "react";
 
-export function AccountScreen() {
+export function TradeScreen() {
   return (
     <Box>
-      <Text>Account Screen</Text>
+      <Text>Trade Screen</Text>
     </Box>
   );
 }

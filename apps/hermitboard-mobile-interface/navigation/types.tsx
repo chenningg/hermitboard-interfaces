@@ -1,19 +1,15 @@
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { StackScreenProps } from "@react-navigation/stack";
 
-// Type checking for prop types for navigator and screens.
+// ====================
+// NotSignedInRootStack
+// ====================
 export type NotSignedInRootStackParamList = {
   Login: undefined;
   Register: undefined;
   ForgotPassword: undefined;
 };
 
-export type SignedInRootTabParamList = {
-  Home: undefined;
-  Account: undefined;
-};
-
-// Extends screen prop types with navigation and route props.
 export type NotSignedInRootStackLoginScreenProps = StackScreenProps<
   NotSignedInRootStackParamList,
   "Login",
@@ -32,8 +28,43 @@ export type NotSignedInRootStackForgotPasswordScreenProps = StackScreenProps<
   "NotSignedInRootStack"
 >;
 
+// =====================
+// SignedInRootBottomTab
+// =====================
+export type SignedInRootTabParamList = {
+  Home: undefined;
+  Budget: undefined;
+  Trade: undefined;
+  Community: undefined;
+  Settings: undefined;
+};
+
 export type SignedInRootTabHomeScreenProps = BottomTabScreenProps<
   SignedInRootTabParamList,
   "Home",
+  "SignedInRootTab"
+>;
+
+export type SignedInRootTabBudgetScreenProps = BottomTabScreenProps<
+  SignedInRootTabParamList,
+  "Settings",
+  "SignedInRootTab"
+>;
+
+export type SignedInRootTabTradeScreenProps = BottomTabScreenProps<
+  SignedInRootTabParamList,
+  "Settings",
+  "SignedInRootTab"
+>;
+
+export type SignedInRootTabCommunityScreenProps = BottomTabScreenProps<
+  SignedInRootTabParamList,
+  "Settings",
+  "SignedInRootTab"
+>;
+
+export type SignedInRootTabSettingsScreenProps = BottomTabScreenProps<
+  SignedInRootTabParamList,
+  "Settings",
   "SignedInRootTab"
 >;
