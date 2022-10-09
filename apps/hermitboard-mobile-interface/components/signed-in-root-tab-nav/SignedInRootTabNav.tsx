@@ -2,29 +2,30 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { HomeScreen } from "../../views/HomeScreen";
 import { AccountScreen } from "../../views/AccountScreen";
-import { NavigationContainer } from "@react-navigation/native";
-import { RootTabParamList } from "../../navigation/types";
-import { MainFooterTabBar } from "../MainFooterTabNav/MainFooterTabBar";
-import { MainFooterTabBarIcon } from "./MainFooterTabBarIcon";
-import { MainFooterTabBarLabel } from "./MainFooterTabBarLabel";
+import { SignedInRootTabParamList } from "../../navigation/types";
+import { SignedInRootTabBar } from "./SignedInRootTabBar";
+import { SignedInRootTabBarIcon } from "./SignedInRootTabBarIcon";
+import { SignedInRootTabBarLabel } from "./SignedInRootTabBarLabel";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Text } from "native-base";
-import { LabelPosition } from "@react-navigation/bottom-tabs/lib/typescript/src/types";
 
 // Create the root tab navigator.
-const RootTab = createBottomTabNavigator<RootTabParamList>();
+const SignedInRootTab = createBottomTabNavigator<SignedInRootTabParamList>();
 
-export function MainFooterTabNav() {
+export function SignedInRootTabNav() {
   return (
     <>
-      <RootTab.Navigator tabBar={(props) => <MainFooterTabBar {...props} />}>
-        <RootTab.Screen
+      <SignedInRootTab.Navigator
+        id="SignedInRootTab"
+        initialRouteName="Home"
+        tabBar={(props) => <SignedInRootTabBar {...props} />}
+      >
+        <SignedInRootTab.Screen
           name="Home"
           component={HomeScreen}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
-                <MainFooterTabBarIcon
+                <SignedInRootTabBarIcon
                   focused={focused}
                   iconLibrary={MaterialCommunityIcons}
                   iconName="home"
@@ -33,17 +34,17 @@ export function MainFooterTabNav() {
               );
             },
             tabBarLabel: ({ focused }) => {
-              return <MainFooterTabBarLabel focused={focused} label="Home" />;
+              return <SignedInRootTabBarLabel focused={focused} label="Home" />;
             },
           }}
         />
-        <RootTab.Screen
+        <SignedInRootTab.Screen
           name="Account"
           component={AccountScreen}
           options={{
             tabBarIcon: ({ focused }) => {
               return (
-                <MainFooterTabBarIcon
+                <SignedInRootTabBarIcon
                   focused={focused}
                   iconLibrary={MaterialCommunityIcons}
                   iconName="account"
@@ -53,12 +54,12 @@ export function MainFooterTabNav() {
             },
             tabBarLabel: ({ focused }) => {
               return (
-                <MainFooterTabBarLabel focused={focused} label="Account" />
+                <SignedInRootTabBarLabel focused={focused} label="Account" />
               );
             },
           }}
         />
-      </RootTab.Navigator>
+      </SignedInRootTab.Navigator>
     </>
   );
 }

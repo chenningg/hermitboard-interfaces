@@ -1,6 +1,7 @@
 import { Icon } from "native-base";
+import React from "react";
 
-export function MainFooterTabBarIcon(props: {
+export function SignedInRootTabBarIcon(props: {
   focused: boolean;
   iconLibrary: any;
   iconName: string;
@@ -10,6 +11,7 @@ export function MainFooterTabBarIcon(props: {
     <Icon
       as={props.iconLibrary}
       name={props.focused ? props.iconFocusedName : props.iconName}
-      color={props.focused ? "blue.700" : "blue.300"}></Icon>
+      color={props.focused ? "blue.700" : "blue.300"}
+    ></Icon>
   );
 }

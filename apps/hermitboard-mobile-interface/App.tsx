@@ -1,6 +1,11 @@
-import React, { useEffect, useMemo } from "react";
-import { Box, NativeBaseProvider, Text } from "native-base";
-import { MainFooterTabNav } from "./components/MainFooterTabNav/MainFooterTabNav";
+import React, { useMemo } from "react";
+import {
+  Box,
+  NativeBaseProvider,
+  StatusBar,
+  Text,
+  extendTheme,
+} from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   cacheExchange,
@@ -17,17 +22,25 @@ import { AuthState } from "./types/urql-auth-state";
 import { CombinedError } from "urql";
 import shallow from "zustand/shallow";
 import { makeOperation, Operation } from "@urql/core";
+import { LoginScreen } from "./views/LoginScreen";
+import { useAppSettingsStore } from "./store/app-settings";
+import { hermitboardTheme } from "./utils/hermitboard-theme";
+import { SignedInRootTabNav } from "./components/signed-in-root-tab-nav/SignedInRootTabNav";
+import { NotSignedInRootStackNav } from "./components/not-signed-in-root-stack-nav/NotSignedInRootStackNav";
+import { SplashScreen } from "./views/SplashScreen";
 
 export function App() {
   // Initialize authentication store.
-  const { sessionToken, isLoggedIn, hasHydrated } = useAuthStore(
-    (state) => ({
-      sessionToken: state.sessionToken,
-      isLoggedIn: state.isLoggedIn,
-      hasHydrated: state._hasHydrated,
-    }),
-    shallow
-  );
+  const { sessionToken, isLoggedIn, hasHydrated, resetAuthState } =
+    useAuthStore(
+      (state) => ({
+        sessionToken: state.sessionToken,
+        isLoggedIn: state.isLoggedIn,
+        hasHydrated: state._hasHydrated,
+        resetAuthState: state.reset,
+      }),
+      shallow
+    );
 
   // Define exchanges for Urql client.
   const getAuth: AuthConfig<AuthState>["getAuth"] = async ({ authState }) => {
@@ -43,7 +56,7 @@ export function App() {
     }
 
     //TODO: Logout the user
-
+    resetAuthState();
     return null;
   };
 
@@ -134,6 +147,7 @@ export function App() {
     // If there is an auth error then we logout the user.
     if (isAuthError) {
       //TODO: Logout the user
+      resetAuthState;
     }
   };
 
@@ -160,16 +174,16 @@ export function App() {
   return (
     <Provider value={client}>
       <NavigationContainer>
-        <NativeBaseProvider>
-          <Box safeArea>
-            {!hasHydrated ? (
-              <Text>Loading screen...</Text>
-            ) : isLoggedIn ? (
-              <MainFooterTabNav></MainFooterTabNav>
-            ) : (
-              <Text>Not logged in</Text>
-            )}
-          </Box>
+        <NativeBaseProvider theme={hermitboardTheme}>
+          {!hasHydrated ? (
+            <SplashScreen />
+          ) : isLoggedIn ? (
+            // Logged in, direct to Home screen.
+            <SignedInRootTabNav />
+          ) : (
+            // Not logged in, we direct to Login screen.
+            <NotSignedInRootStackNav />
+          )}
         </NativeBaseProvider>
       </NavigationContainer>
     </Provider>

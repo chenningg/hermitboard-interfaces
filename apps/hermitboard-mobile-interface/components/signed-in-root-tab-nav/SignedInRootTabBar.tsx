@@ -5,7 +5,7 @@ import { Box, Center, HStack, Icon, Pressable, Text } from "native-base";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-export function MainFooterTabBar({
+export function SignedInRootTabBar({
   state,
   descriptors,
   navigation,
@@ -17,7 +17,8 @@ export function MainFooterTabBar({
         justifyContent="center"
         alignItems="center"
         borderTopWidth="1"
-        borderTopColor="dark.200">
+        borderTopColor="dark.200"
+      >
         {state.routes.map((route, index) => {
           // Populate options struct.
           const { options } = descriptors[route.key];
@@ -58,7 +59,8 @@ export function MainFooterTabBar({
               bg={"indigo.400"}
               key={index}
               onPress={onPress}
-              onLongPress={onLongPress}>
+              onLongPress={onLongPress}
+            >
               <Center>
                 {options.tabBarIcon?.({
                   focused: isFocused,

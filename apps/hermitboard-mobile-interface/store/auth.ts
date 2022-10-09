@@ -62,7 +62,16 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
       {
         name: "auth-storage",
         getStorage: () => secureStorage,
-        onRehydrateStorage: () => (state) => {
+        partialize: (state) => ({
+          sessionToken: state.sessionToken,
+          userID: state.userID,
+          authRoles: state.authRoles,
+          isLoggedIn: state.isLoggedIn,
+        }),
+        onRehydrateStorage: (state) => (state) => {
+          // Disable rehydration temporarily.
+          // TODO: REMOVE!
+          state?.reset();
           state?.setHasHydrated(true);
         },
       }

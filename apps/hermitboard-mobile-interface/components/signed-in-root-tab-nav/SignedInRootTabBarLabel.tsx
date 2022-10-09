@@ -1,6 +1,7 @@
 import { Text } from "native-base";
+import React from "react";
 
-export function MainFooterTabBarLabel(props: {
+export function SignedInRootTabBarLabel(props: {
   focused: boolean;
   label: string;
   hide?: boolean;
