@@ -112,7 +112,7 @@ export function SignedInRootTabNav() {
                   iconLibrary={Octicons}
                   activeIconName="apps"
                   inactiveIconName="apps"
-                  alignMargin={-1.5}
+                  alignMargin={-1}
                 />
               );
             },

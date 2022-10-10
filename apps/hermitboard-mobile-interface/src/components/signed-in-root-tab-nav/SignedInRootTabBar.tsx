@@ -85,6 +85,8 @@ export function SignedInRootTabBar({
                   >
                     <Flex w="100%" h="100%" justify="center" align="center">
                       <Flex
+                        borderRadius="md"
+                        overflow="hidden"
                         justify="center"
                         align="center"
                         w="75%"
@@ -96,7 +98,6 @@ export function SignedInRootTabBar({
                               : "indigo.500"
                             : null
                         }
-                        borderRadius={6}
                       >
                         {options.tabBarIcon?.({
                           focused: isFocused,

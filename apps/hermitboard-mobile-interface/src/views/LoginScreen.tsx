@@ -23,7 +23,10 @@ import { NotSignedInRootStackLoginScreenProps } from "../navigation/types";
 import { useAppSettingsStore } from "../store/app-settings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation } from "urql";
-import { loginToAccountMutation } from "../graphql/auth";
+import { loginToAccountMutationDocument } from "../graphql/auth";
+import { useAuthStore } from "../store/auth";
+import { SESSION_TOKEN } from "@env";
+import { Account, AuthRoleValue } from "../graphql/generated/graphql";
 
 type LoginFormData = {
   username: string;
@@ -35,7 +38,9 @@ export function LoginScreen({
   navigation,
 }: NotSignedInRootStackLoginScreenProps) {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
+  const setAuthState = useAuthStore((state) => state.updateAuthState);
 
+  // Login form.
   const {
     control,
     handleSubmit,
@@ -44,21 +49,41 @@ export function LoginScreen({
 
   // Login mutation.
   const [loginToAccountResult, loginToAccount] = useMutation(
-    loginToAccountMutation
+    loginToAccountMutationDocument
   );
-  const loginToast = useToast(); // Toast for displaying login error messages.
 
+  // Toast for displaying login error messages.
+  const loginToast = useToast();
+
+  // Submit handler for login form.
   const onSubmit = handleSubmit((data) => {
-    loginToAccount(data).then((result) => {
-      if (result.error) {
-        loginToast.show({
-          title: result.error.message,
-          duration: 3000,
-          placement: "top",
-          avoidKeyboard: true,
-        });
-      }
+    setAuthState({
+      token: SESSION_TOKEN,
+      userID: "ACC_01GEGJGGJHXB9FWZ84SPKCVFG8",
+      authRoles: ["PRO" as AuthRoleValue],
     });
+    // loginToAccount({ username: data.username, password: data.password }).then(
+    //   (result) => {
+    //     console.log(result);
+    //     if (result.error) {
+    //       loginToast.show({
+    //         title: result.error.message,
+    //         duration: 3000,
+    //         placement: "top",
+    //         avoidKeyboard: true,
+    //       });
+    //     }
+
+    //     // If we get back data, then populate the auth and user stores with it.
+    //     if (result.data) {
+    //       setAuthState({
+    //         token: result.data.session.token,
+    //         userID: result.data.session.userID,
+    //         authRoles: ["PRO" as AuthRoleValue],
+    //       });
+    //     }
+    //   }
+    // );
   });
 
   return (
@@ -186,11 +211,12 @@ export function LoginScreen({
                 <Button
                   w="100%"
                   h="12"
+                  disabled={loginToAccountResult.fetching}
                   borderRadius="full"
                   bg={colorMode === "light" ? "primary.600" : "primary.800"}
                   onPress={onSubmit}
                 >
-                  Log in
+                  {loginToAccountResult.fetching ? "Logging in..." : "Log in"}
                 </Button>
               </VStack>
             </VStack>

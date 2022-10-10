@@ -1,9 +1,10 @@
+import { gql } from "graphql-tag";
+import { graphql } from "./generated";
+
 // Query to get logged in account details.
-export const getAccountQuery = `
-  query ($id: ID!) {
-    accounts (where: {
-      id: $id
-    }) {
+export const getAccountQueryDocument = graphql(/* GraphQL */ `
+  query getAccountQuery($id: ID!) {
+    accounts(where: { id: $id }) {
       edges {
         node {
           id
@@ -31,7 +32,7 @@ export const getAccountQuery = `
                 nickname
               }
             }
-				  }
+          }
           portfolios {
             edges {
               node {
@@ -52,4 +53,4 @@ export const getAccountQuery = `
       }
     }
   }
-`;
+`);

@@ -31,37 +31,21 @@ import { SplashScreen } from "./views/SplashScreen";
 
 export function App() {
   // Initialize authentication store.
-  const { sessionToken, isLoggedIn, hasHydrated, resetAuthState } =
-    useAuthStore(
-      (state) => ({
-        sessionToken: state.sessionToken,
-        isLoggedIn: state.isLoggedIn,
-        hasHydrated: state._hasHydrated,
-        resetAuthState: state.reset,
-      }),
-      shallow
-    );
-
-  useEffect(() => {
-    useAuthStore.persist.clearStorage();
-    resetAuthState();
-  }, []);
+  const authStoreState = useAuthStore();
 
   // Define exchanges for Urql client.
   const getAuth: AuthConfig<AuthState>["getAuth"] = async ({ authState }) => {
     if (!authState) {
       // If authState does not exist then attempt to retrieve it from the store.
-      if (isLoggedIn && sessionToken) {
-        return {
-          sessionToken,
-        };
+      if (authStoreState.session) {
+        return { token: authStoreState.session.token };
       }
 
       return null;
     }
 
-    //TODO: Logout the user
-    resetAuthState();
+    // Logout the user
+    authStoreState.reset();
     return null;
   };
 
@@ -69,7 +53,7 @@ export function App() {
     authState,
     operation,
   }) => {
-    if (!authState || !authState.sessionToken) {
+    if (!authState || !authState.token) {
       return operation;
     }
 
@@ -84,9 +68,7 @@ export function App() {
         ...fetchOptions,
         headers: {
           ...fetchOptions.headers,
-          Authorization: authState.sessionToken
-            ? `Bearer ${authState.sessionToken}`
-            : "",
+          Authorization: authState.token ? `Bearer ${authState.token}` : "",
         },
         credentials: "include",
       },
@@ -121,7 +103,7 @@ export function App() {
     }
 
     // We have an auth state, but we need to check if the authState is legit.
-    if (authState.sessionToken && authState.sessionToken.length === 40) {
+    if (authState.token && authState.token.length === 40) {
       return false;
     }
 
@@ -151,21 +133,16 @@ export function App() {
 
     // If there is an auth error then we logout the user.
     if (isAuthError) {
-      //TODO: Logout the user
-      resetAuthState();
+      // Logout the user
+      authStoreState.reset();
     }
   };
 
   // Create Urql client for GraphQL API requests.
   const client = useMemo(() => {
+    console.log(authStoreState);
     return createClient({
       url: API_URL,
-      requestPolicy: "cache-and-network",
-      fetchOptions: {
-        headers: {
-          Accept: "application/json",
-        },
-      },
       exchanges: [
         dedupExchange,
         cacheExchange,
@@ -180,15 +157,15 @@ export function App() {
         fetchExchange,
       ],
     });
-  }, [isLoggedIn]);
+  }, [authStoreState.session, authStoreState._hasHydrated]);
 
   return (
     <Provider value={client}>
       <NavigationContainer>
         <NativeBaseProvider theme={hermitboardTheme}>
-          {!hasHydrated ? (
+          {!authStoreState._hasHydrated ? (
             <SplashScreen />
-          ) : isLoggedIn ? (
+          ) : authStoreState.session ? (
             // Logged in, direct to Home screen.
             <SignedInRootTabNav />
           ) : (

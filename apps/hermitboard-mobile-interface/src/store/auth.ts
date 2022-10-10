@@ -1,33 +1,30 @@
-import { AuthRoleValue } from "./../types/auth-role";
+import { AuthRoleValue } from "../graphql/generated/graphql";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { secureStorage } from "./secure-storage";
-import { SESSION_TOKEN } from "@env";
 
 export interface AuthStoreState {
-  sessionToken?: string;
-  userID?: string;
-  authRoles?: Map<AuthRoleValue, boolean>;
-  isLoggedIn: boolean;
+  session?: {
+    token: string;
+    userID: string;
+    authRoles: Map<AuthRoleValue, boolean>;
+  };
   _hasHydrated: boolean;
 }
 
 export interface AuthStoreActions {
-  updateAuthState: (
-    sessionToken: string,
-    userID: string,
-    authRoles: AuthRoleValue[]
-  ) => void;
+  updateAuthState: (session: {
+    token: string;
+    userID: string;
+    authRoles: AuthRoleValue[];
+  }) => void;
   reset: () => void;
   setHasHydrated: (status: boolean) => void;
 }
 
 const initialState: AuthStoreState = {
-  sessionToken: undefined,
-  userID: undefined,
-  authRoles: undefined,
-  isLoggedIn: false,
+  session: undefined,
   _hasHydrated: false,
 };
 
@@ -36,34 +33,31 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
     persist(
       (set) => ({
         ...initialState,
-        updateAuthState: (
-          sessionToken: string,
-          userID: string,
-          authRoles: AuthRoleValue[]
-        ) => {
+        updateAuthState: (session: {
+          token: string;
+          userID: string;
+          authRoles: AuthRoleValue[];
+        }) => {
           let authRolesMap = new Map<AuthRoleValue, boolean>();
-          authRoles.forEach((value) => {
+          session.authRoles.forEach((value) => {
             authRolesMap.set(value as AuthRoleValue, true);
           });
           set((state) => {
-            state.sessionToken = sessionToken;
-            state.userID = userID;
-            state.authRoles = authRolesMap;
-            state.isLoggedIn =
-              sessionToken &&
-              sessionToken.length == 40 &&
-              userID &&
-              authRoles &&
-              state.authRoles.size > 0
-                ? true
-                : false;
+            state.session = {
+              token: session.token,
+              userID: session.userID,
+              authRoles: authRolesMap,
+            };
           });
         },
         reset: () => {
+          console.log("RESET!");
           set({
             ...initialState,
             _hasHydrated: true,
           });
+          //TODO: See if got bug.
+          useAuthStore.persist.clearStorage();
         },
         setHasHydrated: (status) => {
           set({
@@ -77,7 +71,8 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
         serialize: (data) => {
           // Turn auth roles map into a string.
           let authRolesArr: [AuthRoleValue, boolean][] = [];
-          data.state.authRoles?.forEach((value, key) => {
+
+          data.state.session?.authRoles?.forEach((value, key) => {
             authRolesArr.push([key, value]);
           });
 
@@ -85,7 +80,9 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
             ...data,
             state: {
               ...data.state,
-              authRoles: authRolesArr,
+              session: {
+                authRoles: authRolesArr,
+              },
             },
           });
         },
@@ -94,29 +91,29 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
 
           // Turn auth roles string into a map.
           let authRolesMap = new Map<AuthRoleValue, boolean>();
-          data.state.authRoles?.forEach((value: [AuthRoleValue, boolean]) => {
-            let authRoleVal = value[0] as AuthRoleValue;
-            authRolesMap.set(authRoleVal, value[1]);
-          });
-          data.state.authRoles = authRolesMap;
+
+          data.state.session?.authRoles?.forEach(
+            (value: [AuthRoleValue, boolean]) => {
+              let authRoleVal = value[0] as AuthRoleValue;
+              authRolesMap.set(authRoleVal, value[1]);
+            }
+          );
+
+          // Check that we actually have data, else set session to undefined.
+          authRolesMap.size > 0
+            ? (data.state.session.authRoles = authRolesMap)
+            : (data.state.session = undefined);
 
           return data;
         },
         partialize: (state) => ({
-          sessionToken: state.sessionToken,
-          userID: state.userID,
-          authRoles: state.authRoles,
-          isLoggedIn: state.isLoggedIn,
+          session: {
+            token: state.session?.token,
+            userID: state.session?.userID,
+            authRoles: state.session?.authRoles,
+          },
         }),
         onRehydrateStorage: (state) => (state) => {
-          // Disable rehydration temporarily.
-          // TODO: REMOVE!
-          // state?.reset();
-          // state?.updateAuthState(
-          //   SESSION_TOKEN,
-          //   "ACC_01GEGJGGJHXB9FWZ84SPKCVFG8",
-          //   new Array<AuthRoleValue>(AuthRoleValue.Pro)
-          // );
           state?.setHasHydrated(true);
         },
       }
