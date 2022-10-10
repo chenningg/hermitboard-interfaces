@@ -47,19 +47,19 @@ export type SignedInRootTabHomeScreenProps = BottomTabScreenProps<
 
 export type SignedInRootTabBudgetScreenProps = BottomTabScreenProps<
   SignedInRootTabParamList,
-  "Settings",
+  "Budget",
   "SignedInRootTab"
 >;
 
 export type SignedInRootTabTradeScreenProps = BottomTabScreenProps<
   SignedInRootTabParamList,
-  "Settings",
+  "Trade",
   "SignedInRootTab"
 >;
 
 export type SignedInRootTabCommunityScreenProps = BottomTabScreenProps<
   SignedInRootTabParamList,
-  "Settings",
+  "Community",
   "SignedInRootTab"
 >;
 

@@ -9,7 +9,7 @@ import {
   Text,
 } from "native-base";
 import React from "react";
-import { Entypo } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useAppSettingsStore } from "../../store/app-settings";
 import { ColorType } from "native-base/lib/typescript/components/types";
 
@@ -36,9 +36,9 @@ export function NotSignedInRootStackHeader({
       <IconButton
         icon={
           direction === "back" ? (
-            <Icon as={Entypo} name="chevron-left" />
+            <Icon as={Ionicons} name="ios-arrow-back" />
           ) : (
-            <Icon as={Entypo} name="cross" />
+            <Icon as={Ionicons} name="ios-close" />
           )
         }
         _icon={{

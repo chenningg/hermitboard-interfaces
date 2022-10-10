@@ -76,20 +76,34 @@ export function SignedInRootTabBar({
                 // Return the tab buttons.
                 return (
                   <Pressable
-                    bg={colorMode === "light" ? "indigo.200" : "coolGray.800"}
+                    bg={colorMode === "light" ? "coolGray.50" : "coolGray.800"}
                     h="100%"
-                    w="16"
-                    p="4"
+                    w="20%"
                     key={index}
                     onPress={onPress}
                     onLongPress={onLongPress}
                   >
-                    <Flex justify="center" align="center" w="100%" h="100%">
-                      {options.tabBarIcon?.({
-                        focused: isFocused,
-                        color: "",
-                        size: 1,
-                      })}
+                    <Flex w="100%" h="100%" justify="center" align="center">
+                      <Flex
+                        justify="center"
+                        align="center"
+                        w="75%"
+                        h="60%"
+                        bg={
+                          isFocused
+                            ? colorMode === "light"
+                              ? "indigo.100"
+                              : "indigo.500"
+                            : null
+                        }
+                        borderRadius={6}
+                      >
+                        {options.tabBarIcon?.({
+                          focused: isFocused,
+                          color: "",
+                          size: 1,
+                        })}
+                      </Flex>
                     </Flex>
                   </Pressable>
                 );

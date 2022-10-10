@@ -3,5 +3,4 @@ export type Connection = {
   name: string;
   accessToken: string;
   refreshToken: string;
-  accountID: string;
 };

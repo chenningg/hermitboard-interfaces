@@ -15,13 +15,15 @@ import {
   StatusBar,
   Text,
   VStack,
+  useToast,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { Platform } from "react-native";
 import { NotSignedInRootStackLoginScreenProps } from "../navigation/types";
 import { useAppSettingsStore } from "../store/app-settings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useMutation } from "urql";
+import { loginToAccountMutation } from "../graphql/auth";
 
 type LoginFormData = {
   username: string;
@@ -40,8 +42,23 @@ export function LoginScreen({
     formState: { errors },
   } = useForm<LoginFormData>();
 
+  // Login mutation.
+  const [loginToAccountResult, loginToAccount] = useMutation(
+    loginToAccountMutation
+  );
+  const loginToast = useToast(); // Toast for displaying login error messages.
+
   const onSubmit = handleSubmit((data) => {
-    console.log("submiting with ", data);
+    loginToAccount(data).then((result) => {
+      if (result.error) {
+        loginToast.show({
+          title: result.error.message,
+          duration: 3000,
+          placement: "top",
+          avoidKeyboard: true,
+        });
+      }
+    });
   });
 
   return (

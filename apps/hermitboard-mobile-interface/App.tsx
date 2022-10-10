@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import {
   Box,
   NativeBaseProvider,
@@ -41,6 +41,11 @@ export function App() {
       }),
       shallow
     );
+
+  useEffect(() => {
+    useAuthStore.persist.clearStorage();
+    resetAuthState();
+  }, []);
 
   // Define exchanges for Urql client.
   const getAuth: AuthConfig<AuthState>["getAuth"] = async ({ authState }) => {
@@ -147,7 +152,7 @@ export function App() {
     // If there is an auth error then we logout the user.
     if (isAuthError) {
       //TODO: Logout the user
-      resetAuthState;
+      resetAuthState();
     }
   };
 
@@ -155,6 +160,12 @@ export function App() {
   const client = useMemo(() => {
     return createClient({
       url: API_URL,
+      requestPolicy: "cache-and-network",
+      fetchOptions: {
+        headers: {
+          Accept: "application/json",
+        },
+      },
       exchanges: [
         dedupExchange,
         cacheExchange,
@@ -169,7 +180,7 @@ export function App() {
         fetchExchange,
       ],
     });
-  }, [isLoggedIn, hasHydrated]);
+  }, [isLoggedIn]);
 
   return (
     <Provider value={client}>

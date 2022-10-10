@@ -25,6 +25,7 @@ export function SignedInRootTabNav() {
         tabBar={(props) => <SignedInRootTabBar {...props} />}
         backBehavior="history"
         screenOptions={{
+          headerShown: false,
           tabBarShowLabel: false,
         }}
       >
@@ -49,9 +50,10 @@ export function SignedInRootTabNav() {
                 <SignedInRootTabBarIcon
                   focused={focused}
                   iconLibrary={Octicons}
-                  size={7}
+                  size={6}
                   activeIconName="home"
                   inactiveIconName="home"
+                  alignMargin={-1}
                 />
               );
             },
@@ -77,7 +79,7 @@ export function SignedInRootTabNav() {
               return (
                 <SignedInRootTabBarIcon
                   focused={focused}
-                  size={7}
+                  size={6}
                   iconLibrary={Octicons}
                   activeIconName="credit-card"
                   inactiveIconName="credit-card"
@@ -106,10 +108,11 @@ export function SignedInRootTabNav() {
               return (
                 <SignedInRootTabBarIcon
                   focused={focused}
-                  size={7}
+                  size={6}
                   iconLibrary={Octicons}
-                  activeIconName="graph"
-                  inactiveIconName="graph"
+                  activeIconName="apps"
+                  inactiveIconName="apps"
+                  alignMargin={-1.5}
                 />
               );
             },
@@ -135,7 +138,7 @@ export function SignedInRootTabNav() {
               return (
                 <SignedInRootTabBarIcon
                   focused={focused}
-                  size={7}
+                  size={6}
                   iconLibrary={Octicons}
                   activeIconName="people"
                   inactiveIconName="people"
@@ -164,7 +167,7 @@ export function SignedInRootTabNav() {
               return (
                 <SignedInRootTabBarIcon
                   focused={focused}
-                  size={7}
+                  size={6}
                   iconLibrary={Octicons}
                   activeIconName="gear"
                   inactiveIconName="gear"

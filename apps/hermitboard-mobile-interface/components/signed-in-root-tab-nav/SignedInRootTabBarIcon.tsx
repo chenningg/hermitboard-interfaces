@@ -9,12 +9,14 @@ export function SignedInRootTabBarIcon({
   iconLibrary,
   activeIconName,
   inactiveIconName,
+  alignMargin,
 }: {
   size: ThemeComponentSizeType<"Icon">;
   focused: boolean;
   iconLibrary: any;
   activeIconName: string;
   inactiveIconName: string;
+  alignMargin?: number;
 }) {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
 
@@ -23,14 +25,15 @@ export function SignedInRootTabBarIcon({
       as={iconLibrary}
       size={size}
       name={focused ? activeIconName : inactiveIconName}
+      mr={alignMargin ?? 0}
       color={
         focused
           ? colorMode === "light" // Focused
             ? "primary.700"
             : "primary.200"
           : colorMode === "light" // Unfocused
-          ? "coolGray.800"
-          : "coolGray.100"
+          ? "muted.400"
+          : "muted.400"
       }
     ></Icon>
   );

@@ -1,19 +1,50 @@
-import { Account } from "./../types/account";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import create from "zustand";
-import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
-import { Appearance } from "react-native";
+import { AuthType } from "../types/auth-type";
+import { AuthRole } from "../types/auth-role";
+import { Connection } from "../types/connection";
+import { Portfolio } from "../types/portfolio";
+import { Friend } from "../types/friend";
 
 export interface AccountStoreState {
-  account?: Account;
+  id?: string;
+  nickname?: string;
+  email?: string;
+  emailConfirmed?: boolean;
+  passwordUpdatedAt?: Date;
+  authType?: AuthType;
+  connections?: Connection[];
+  portfolios?: Portfolio[];
+  friends?: Friend[];
 }
 
-export const useAccountStore = create<AccountStoreState>()(
-  immer(
-    persist((set) => ({}), {
-      name: "account-storage",
-      getStorage: () => AsyncStorage,
-    })
-  )
+export interface AccountStoreActions {
+  updateAccountState: (account: AccountStoreState) => void;
+  reset: () => void;
+}
+
+const initialState: AccountStoreState = {
+  id: "",
+  nickname: "",
+  email: "",
+  emailConfirmed: undefined,
+  passwordUpdatedAt: undefined,
+  authType: undefined,
+  connections: undefined,
+  portfolios: undefined,
+  friends: undefined,
+};
+
+export const useAccountStore = create<
+  AccountStoreState & AccountStoreActions
+>()(
+  immer((set) => ({
+    ...initialState,
+    updateAccountState: (account: AccountStoreState) => {
+      set(account);
+    },
+    reset: () => {
+      set(initialState);
+    },
+  }))
 );
