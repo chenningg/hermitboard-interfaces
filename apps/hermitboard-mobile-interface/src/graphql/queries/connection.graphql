@@ -1,0 +1,17 @@
+mutation CreateConnection($input: CreateConnectionInput!) {
+  createConnection(input: $input) {
+    id
+    name
+    accessToken
+    refreshToken
+    source {
+      id
+      name
+      icon
+      sourceType {
+        id
+        value
+      }
+    }
+  }
+}

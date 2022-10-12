@@ -1,0 +1,55 @@
+query InitializeData {
+  assetClasses {
+    edges {
+      node {
+        id
+        value
+      }
+    }
+  }
+  authRoles {
+    edges {
+      node {
+        id
+        value
+      }
+    }
+  }
+  authTypes {
+    edges {
+      node {
+        id
+        value
+      }
+    }
+  }
+  sourceTypes {
+    edges {
+      node {
+        id
+        value
+      }
+    }
+  }
+  transactionTypes {
+    edges {
+      node {
+        id
+        value
+      }
+    }
+  }
+  sources {
+    edges {
+      node {
+        id
+        name
+        icon
+        sourceType {
+          id
+          value
+        }
+      }
+    }
+  }
+}

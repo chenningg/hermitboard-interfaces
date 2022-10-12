@@ -23,10 +23,9 @@ import { NotSignedInRootStackLoginScreenProps } from "../navigation/types";
 import { useAppSettingsStore } from "../store/app-settings";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useMutation } from "urql";
-import { loginToAccountMutationDocument } from "../graphql/auth";
+import { LoginToAccountDocument } from "../graphql/generated/index";
 import { useAuthStore } from "../store/auth";
-import { SESSION_TOKEN } from "@env";
-import { Account, AuthRoleValue } from "../graphql/generated/graphql";
+import { CustomToast } from "../components/CustomToast";
 
 type LoginFormData = {
   username: string;
@@ -38,7 +37,7 @@ export function LoginScreen({
   navigation,
 }: NotSignedInRootStackLoginScreenProps) {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
-  const setAuthState = useAuthStore((state) => state.updateAuthState);
+  const setAuthState = useAuthStore((state) => state.setAuthState);
 
   // Login form.
   const {
@@ -49,41 +48,35 @@ export function LoginScreen({
 
   // Login mutation.
   const [loginToAccountResult, loginToAccount] = useMutation(
-    loginToAccountMutationDocument
+    LoginToAccountDocument
   );
 
   // Toast for displaying login error messages.
   const loginToast = useToast();
 
   // Submit handler for login form.
-  const onSubmit = handleSubmit((data) => {
-    setAuthState({
-      token: SESSION_TOKEN,
-      userID: "ACC_01GEGJGGJHXB9FWZ84SPKCVFG8",
-      authRoles: ["PRO" as AuthRoleValue],
-    });
-    // loginToAccount({ username: data.username, password: data.password }).then(
-    //   (result) => {
-    //     console.log(result);
-    //     if (result.error) {
-    //       loginToast.show({
-    //         title: result.error.message,
-    //         duration: 3000,
-    //         placement: "top",
-    //         avoidKeyboard: true,
-    //       });
-    //     }
+  const handleLogin = handleSubmit((data) => {
+    loginToAccount({
+      input: {
+        username: data.username,
+        password: data.password,
+      },
+    }).then((result) => {
+      if (result.error) {
+        loginToast.show({
+          render: () => {
+            return <CustomToast status="error" title={result.error?.message} />;
+          },
+          duration: 3000,
+          placement: "top",
+        });
+      }
 
-    //     // If we get back data, then populate the auth and user stores with it.
-    //     if (result.data) {
-    //       setAuthState({
-    //         token: result.data.session.token,
-    //         userID: result.data.session.userID,
-    //         authRoles: ["PRO" as AuthRoleValue],
-    //       });
-    //     }
-    //   }
-    // );
+      // If we get back data, then populate the auth and user stores with it.
+      if (result.data) {
+        setAuthState(result.data?.loginToAccount.session);
+      }
+    });
   });
 
   return (
@@ -211,12 +204,18 @@ export function LoginScreen({
                 <Button
                   w="100%"
                   h="12"
+                  isLoading={loginToAccountResult.fetching}
+                  isLoadingText="Logging in"
                   disabled={loginToAccountResult.fetching}
-                  borderRadius="full"
+                  spinnerPlacement="start"
+                  borderRadius="lg"
                   bg={colorMode === "light" ? "primary.600" : "primary.800"}
-                  onPress={onSubmit}
+                  _pressed={{
+                    bg: colorMode === "light" ? "primary.700" : "primary.800",
+                  }}
+                  onPress={handleLogin}
                 >
-                  {loginToAccountResult.fetching ? "Logging in..." : "Log in"}
+                  Log in
                 </Button>
               </VStack>
             </VStack>

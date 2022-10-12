@@ -1,0 +1,10 @@
+query GetAccountPortfolios($userID: ID!) {
+  portfolios(where: { id: $userID, isVisible: true }) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
+}

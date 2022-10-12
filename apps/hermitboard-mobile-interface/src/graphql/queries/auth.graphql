@@ -1,0 +1,43 @@
+mutation CreateAccount($input: CreateAccountInput!) {
+  createAccount(input: $input) {
+    account {
+      id
+      email
+      emailConfirmed
+      passwordUpdatedAt
+      authType {
+        id
+        value
+      }
+    }
+    session {
+      token
+      userID
+      authRoles
+    }
+  }
+}
+
+mutation LoginToAccount($input: LoginToAccountInput!) {
+  loginToAccount(input: $input) {
+    account {
+      id
+      email
+      emailConfirmed
+      passwordUpdatedAt
+      authType {
+        id
+        value
+      }
+    }
+    session {
+      token
+      userID
+      authRoles
+    }
+  }
+}
+
+mutation Logout {
+  logout
+}

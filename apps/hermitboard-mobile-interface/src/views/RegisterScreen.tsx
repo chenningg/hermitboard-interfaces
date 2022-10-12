@@ -22,6 +22,8 @@ import { Platform } from "react-native";
 import { useAppSettingsStore } from "../store/app-settings";
 import { NotSignedInRootStackRegisterScreenProps } from "../navigation/types";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useMutation } from "urql";
+import { CreateAccountDocument } from "../graphql/generated";
 
 type RegisterFormData = {
   email: string;
@@ -40,6 +42,11 @@ export function RegisterScreen({
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormData>();
+
+  // Create account mutation.
+  const [createAccountResult, createAccount] = useMutation(
+    CreateAccountDocument
+  );
 
   const onSubmit = handleSubmit((data) => {
     console.log("submiting with ", data);

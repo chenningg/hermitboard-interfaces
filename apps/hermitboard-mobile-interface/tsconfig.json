@@ -1,6 +1,6 @@
 {
   "extends": "expo/tsconfig.base",
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "src/graphql/queries/account.graphq"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "strict": true

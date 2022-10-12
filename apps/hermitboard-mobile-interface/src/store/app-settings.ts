@@ -37,7 +37,11 @@ export const useAppSettingsStore = create<
           });
         },
         reset: () => {
-          set(initialState);
+          set({
+            ...initialState,
+            _hasHydrated: true,
+          });
+          useAppSettingsStore.persist.clearStorage();
         },
       }),
       {

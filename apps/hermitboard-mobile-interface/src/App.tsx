@@ -14,13 +14,13 @@ import {
   errorExchange,
   fetchExchange,
   Provider,
+  useQuery,
 } from "urql";
 import { useAuthStore } from "./store/auth";
 import { authExchange, AuthConfig } from "@urql/exchange-auth";
 import { API_URL } from "@env";
 import { AuthState } from "./types/urql-auth-state";
 import { CombinedError } from "urql";
-import shallow from "zustand/shallow";
 import { makeOperation, Operation } from "@urql/core";
 import { LoginScreen } from "./views/LoginScreen";
 import { useAppSettingsStore } from "./store/app-settings";
@@ -70,7 +70,7 @@ export function App() {
           ...fetchOptions.headers,
           Authorization: authState.token ? `Bearer ${authState.token}` : "",
         },
-        credentials: "include",
+        //credentials: "include",
       },
     });
   };
@@ -112,7 +112,7 @@ export function App() {
   };
 
   const onError = (
-    { graphQLErrors, networkError }: CombinedError,
+    { graphQLErrors, networkError, response }: CombinedError,
     _operation: Operation
   ) => {
     if (graphQLErrors)
@@ -125,11 +125,12 @@ export function App() {
     if (networkError) console.log(`[Network error]: ${networkError}`);
 
     // Check whether an auth error fell through, and log the user out if that's the case.
-    const isAuthError = graphQLErrors.some(
-      (e) =>
-        e.extensions?.code === "UNAUTHENTICATED" ||
-        e.extensions?.responseStatus === 401
-    );
+    const isAuthError =
+      graphQLErrors.some(
+        (e) =>
+          e.extensions?.code === "UNAUTHENTICATED" ||
+          e.extensions?.responseStatus === 401
+      ) || response.status === 401;
 
     // If there is an auth error then we logout the user.
     if (isAuthError) {
@@ -140,7 +141,6 @@ export function App() {
 
   // Create Urql client for GraphQL API requests.
   const client = useMemo(() => {
-    console.log(authStoreState);
     return createClient({
       url: API_URL,
       exchanges: [

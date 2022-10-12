@@ -1,4 +1,4 @@
-import { AuthRoleValue } from "../graphql/generated/graphql";
+import { AuthRoleValue } from "../graphql/generated/index";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
@@ -14,7 +14,7 @@ export interface AuthStoreState {
 }
 
 export interface AuthStoreActions {
-  updateAuthState: (session: {
+  setAuthState: (session: {
     token: string;
     userID: string;
     authRoles: AuthRoleValue[];
@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
     persist(
       (set) => ({
         ...initialState,
-        updateAuthState: (session: {
+        setAuthState: (session: {
           token: string;
           userID: string;
           authRoles: AuthRoleValue[];
@@ -51,12 +51,10 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
           });
         },
         reset: () => {
-          console.log("RESET!");
           set({
             ...initialState,
             _hasHydrated: true,
           });
-          //TODO: See if got bug.
           useAuthStore.persist.clearStorage();
         },
         setHasHydrated: (status) => {
@@ -76,13 +74,25 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
             authRolesArr.push([key, value]);
           });
 
+          let sessionToSerialize = undefined;
+          if (
+            data.state.session &&
+            data.state.session.token &&
+            data.state.session.userID &&
+            data.state.session.authRoles?.size > 0
+          ) {
+            sessionToSerialize = {
+              token: data.state.session.token,
+              userID: data.state.session.userID,
+              authRoles: authRolesArr,
+            };
+          }
+
           return JSON.stringify({
             ...data,
             state: {
               ...data.state,
-              session: {
-                authRoles: authRolesArr,
-              },
+              session: sessionToSerialize,
             },
           });
         },
@@ -100,6 +110,9 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
           );
 
           // Check that we actually have data, else set session to undefined.
+          data.state.session &&
+          data.state.session.token &&
+          data.state.session.userID &&
           authRolesMap.size > 0
             ? (data.state.session.authRoles = authRolesMap)
             : (data.state.session = undefined);
