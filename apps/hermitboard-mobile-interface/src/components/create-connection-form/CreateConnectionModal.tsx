@@ -41,35 +41,39 @@ export function CreateConnectionModal(props: {
   // Track which stage of form we are at.
   const [connectionFormStage, setConnectionFormStage] = useState<
     "chooseSource" | "connectionDetails"
-  >("connectionDetails");
+  >("chooseSource");
 
   return (
-    <Modal
-      isOpen={props.open}
-      onClose={() => {
-        // Reset all state.
-        resetCreateConnectionStore();
-        props.setOpen(false);
-      }}
-      _backdrop={{
-        bg: "coolGray.800",
-      }}
-      avoidKeyboard
-    >
-      <Modal.Content maxWidth="90%" maxH="3/4">
-        <Modal.CloseButton />
-        <Modal.Header>Create connection</Modal.Header>
-        <Modal.Body>
-          {connectionFormStage === "chooseSource" ? (
-            <CreateConnectionFormChooseSource />
-          ) : (
-            <CreateConnectionFormConnectionDetails
-              setOpen={props.setOpen}
-              setConnectionFormStage={setConnectionFormStage}
-            />
-          )}
-        </Modal.Body>
-      </Modal.Content>
-    </Modal>
+    <>
+      <Modal
+        isOpen={props.open}
+        onClose={() => {
+          // Reset all state.
+          resetCreateConnectionStore();
+          props.setOpen(false);
+        }}
+        _backdrop={{
+          bg: "coolGray.800",
+        }}
+        avoidKeyboard
+      >
+        <Modal.Content maxWidth="90%" maxH="3/4">
+          <Modal.CloseButton />
+          <Modal.Header>Create connection</Modal.Header>
+          <Modal.Body>
+            {connectionFormStage === "chooseSource" ? (
+              <CreateConnectionFormChooseSource
+                setConnectionFormStage={setConnectionFormStage}
+              />
+            ) : (
+              <CreateConnectionFormConnectionDetails
+                setOpen={props.setOpen}
+                setConnectionFormStage={setConnectionFormStage}
+              />
+            )}
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
+    </>
   );
 }

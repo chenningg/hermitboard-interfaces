@@ -34,7 +34,7 @@ export type NotSignedInRootStackForgotPasswordScreenProps = StackScreenProps<
 export type SignedInRootTabParamList = {
   Home: undefined;
   Budget: undefined;
-  Trade: undefined;
+  Dashboard: undefined;
   Community: undefined;
   Settings: undefined;
 };
@@ -53,7 +53,7 @@ export type SignedInRootTabBudgetScreenProps = BottomTabScreenProps<
 
 export type SignedInRootTabTradeScreenProps = BottomTabScreenProps<
   SignedInRootTabParamList,
-  "Trade",
+  "Dashboard",
   "SignedInRootTab"
 >;
 

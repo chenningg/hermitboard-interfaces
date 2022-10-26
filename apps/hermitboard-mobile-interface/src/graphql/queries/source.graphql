@@ -1,0 +1,15 @@
+query GetSources {
+  sources {
+    edges {
+      node {
+        id
+        name
+        icon
+        sourceType {
+          id
+          value
+        }
+      }
+    }
+  }
+}

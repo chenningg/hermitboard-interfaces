@@ -10,8 +10,9 @@ import { Octicons } from "@expo/vector-icons";
 import { SignedInRootTabHeader } from "./SignedInRootTabHeader";
 import { Box } from "native-base";
 import { BudgetScreen } from "../../views/BudgetScreen";
-import { TradeScreen } from "../../views/TradeScreen";
+import { DashboardScreen } from "../../views/DashboardScreen";
 import { CommunityScreen } from "../../views/CommunityScreen";
+import { PortfolioDetailsScreen } from "../../views/PortfolioDetailsScreen";
 
 // Create the root tab navigator.
 const SignedInRootTab = createBottomTabNavigator<SignedInRootTabParamList>();
@@ -89,8 +90,8 @@ export function SignedInRootTabNav() {
           }}
         />
         <SignedInRootTab.Screen
-          name="Trade"
-          component={TradeScreen}
+          name="Dashboard"
+          component={PortfolioDetailsScreen}
           options={{
             tabBarAccessibilityLabel: "Trade and watchlist screen.",
             header: ({ navigation }) => (

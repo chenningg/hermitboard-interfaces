@@ -168,7 +168,7 @@ export function HomeScreen({
                       }}
                     >
                       <Text fontSize="4xl" fontWeight="bold" color="lightText">
-                        $0
+                        $10.53
                       </Text>
                     </Skeleton.Text>
                   </VStack>

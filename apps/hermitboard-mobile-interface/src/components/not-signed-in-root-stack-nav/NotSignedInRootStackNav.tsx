@@ -55,6 +55,7 @@ export function NotSignedInRootStackNav() {
               visible: true,
               bgColor: { light: "coolGray.50", dark: "coolGray.800" },
               tintColor: { light: "darkText", dark: "lightText" },
+              direction: "top",
             }),
         }}
       />
