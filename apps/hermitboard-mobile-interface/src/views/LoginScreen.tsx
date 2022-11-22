@@ -65,7 +65,16 @@ export function LoginScreen({
       if (result.error) {
         loginToast.show({
           render: () => {
-            return <CustomToast status="error" title={result.error?.message} />;
+            return (
+              <CustomToast
+                status="error"
+                title={
+                  result.error?.networkError
+                    ? result.error?.networkError?.message
+                    : result.error?.graphQLErrors[0].message
+                }
+              />
+            );
           },
           duration: 3000,
           placement: "top",

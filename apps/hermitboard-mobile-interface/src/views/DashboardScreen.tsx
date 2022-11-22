@@ -13,20 +13,53 @@ import {
   VStack,
 } from "native-base";
 import React from "react";
-import { VictoryLabel, VictoryPie } from "victory-native";
+import {
+  VictoryArea,
+  VictoryAxis,
+  VictoryChart,
+  VictoryContainer,
+  VictoryLabel,
+  VictoryLegend,
+  VictoryLine,
+  VictoryPie,
+  VictoryVoronoiContainer,
+} from "victory-native";
 import { useAppSettingsStore } from "../store/app-settings";
 import { FontAwesome } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { FocusAwareStatusBar } from "../components/FocusAwareStatusBar";
+import { LineChart } from "react-native-wagmi-charts";
+import { LineGraph } from "react-native-graph";
+import { Defs, LinearGradient, Stop } from "react-native-svg";
 
 export function DashboardScreen() {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
 
+  const netWorthData = [
+    { x: new Date("2022-11-20"), y: 2130 },
+    { x: new Date("2022-11-21"), y: 4520 },
+    { x: new Date("2022-11-22"), y: 5230 },
+    { x: new Date("2022-11-23"), y: 6460 },
+    { x: new Date("2022-11-24"), y: 10546 },
+  ];
+
+  const assetBreakdownData = [
+    {
+      x: "Cryptocurrencies",
+      y: "60%",
+    },
+    {
+      x: "Cash & Cash Equivalents",
+      y: "40%",
+    },
+  ];
+
   return (
     <>
-      <StatusBar
-        backgroundColor={colorMode === "light" ? "#4F46E5" : "coolGray.800"}
-        barStyle={colorMode === "light" ? "light-content" : "light-content"}
-      ></StatusBar>
+      <FocusAwareStatusBar
+        bgColor="#f9fafb"
+        barStyle="dark-content"
+      ></FocusAwareStatusBar>
 
       <ScrollView
         w="100%"
@@ -35,26 +68,30 @@ export function DashboardScreen() {
         bg={colorMode === "light" ? "coolGray.50" : "coolGray.900"}
       >
         <Box w="100%" h="100%" safeArea>
-          <Box w="100%" bg="primary.600">
+          <Box w="100%">
             <Center w="100%">
               <Container w="100%" py={4}>
-                <VStack w="100%" justifyContent="center" alignItems="center">
+                <VStack
+                  w="100%"
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                >
                   <Text
-                    color="lightText"
-                    opacity={0.4}
+                    color="darkText"
+                    opacity="0.5"
                     letterSpacing="lg"
                     fontWeight="medium"
                     fontSize="sm"
                   >
-                    Total balance
+                    Total net worth
                   </Text>
                   <Skeleton.Text
                     justifyContent="center"
                     alignItems="center"
                     isLoaded={true}
                     fadeDuration={0.5}
-                    startColor="primary.50"
-                    endColor="primary.200"
+                    startColor="muted.50"
+                    endColor="muted.200"
                     opacity={0.1}
                     lines={1}
                     _line={{
@@ -66,62 +103,115 @@ export function DashboardScreen() {
                     }}
                     mr={3}
                   >
-                    <HStack alignItems="center">
-                      <Text
-                        mr="4"
-                        fontSize="4xl"
-                        fontWeight="bold"
-                        color="lightText"
-                      >
-                        $10.53
+                    <VStack
+                      mb="1"
+                      justifyContent={"center"}
+                      alignItems={"center"}
+                    >
+                      <Text fontSize="4xl" fontWeight="bold" color="darkText">
+                        $10546.65
                       </Text>
-                      <HStack
-                        bgColor="red.200"
-                        borderRadius="full"
-                        px={2}
-                        py={1}
-                      >
+                      <HStack borderRadius="full">
                         <Icon
                           as={FontAwesome}
                           name="caret-down"
                           size={6}
                           color="red.600"
-                          mr={-1.5}
+                          mr={-1}
                         />
-                        <Text color="red.600">-12.6%</Text>
+                        <Text color="red.600">$20112.22 (-65.6%)</Text>
                       </HStack>
-                    </HStack>
+                    </VStack>
                   </Skeleton.Text>
                 </VStack>
               </Container>
             </Center>
           </Box>
-          <Box w="100%" bg="primary.600" h="6">
-            <Box w="100%" bg="coolGray.50" borderTopRadius="3xl" h="6"></Box>
-          </Box>
-          <Box w="100%" bg="coolGray.50">
+
+          <Box w="100%" mb={3}>
             <Center w="100%">
-              <Container w="100%">
-                <Center w="100%" mb="3">
+              <VictoryChart
+                padding={0}
+                height={200}
+                domain={{ y: [0, 12000] }}
+                containerComponent={<VictoryVoronoiContainer />}
+              >
+                <VictoryAxis
+                  tickFormat={() => ""}
+                  style={{
+                    axis: { stroke: "none" },
+                    ticks: { stroke: "none" },
+                    tickLabels: { fill: "none" },
+                  }}
+                />
+
+                <VictoryArea
+                  interpolation="natural"
+                  style={{ data: { fill: "#c7d2fe", opacity: 0.5 } }}
+                  data={netWorthData}
+                />
+                <VictoryLine
+                  style={{
+                    data: {
+                      stroke: "#4338ca",
+                      strokeWidth: 3,
+                    },
+                  }}
+                  interpolation="natural"
+                  data={netWorthData}
+                />
+              </VictoryChart>
+            </Center>
+          </Box>
+
+          <Box w="100%">
+            <Center w="100%">
+              <Container w="100%" py={4}>
+                <Heading size={"md"} mb={4}>
+                  Asset breakdown
+                </Heading>
+                <Center w="100%" mb="4">
                   <VictoryPie
-                    height={330}
-                    radius={120}
+                    height={250}
+                    padding={0}
                     innerRadius={90}
                     animate={{
                       duration: 400,
                     }}
                     colorScale="cool"
-                    data={[{ x: "Cryptocurrencies", y: 100 }]}
-                    labelComponent={
-                      <VictoryLabel
-                        text={(datum) => {
-                          return `Cryptocurrency: 100%`;
-                        }}
-                      />
-                    }
+                    data={[
+                      { x: "Cryptocurrencies", y: 60 },
+                      { x: "ss", y: 40 },
+                    ]}
+                    labels={() => null}
+                    // labelComponent={
+                    //   <VictoryLabel
+                    //     text={(datum) => {
+                    //       return `Cryptocurrency: 100%`;
+                    //     }}
+                    //   />
+                    // }
                   />
                 </Center>
-                <Heading mb="3" fontSize="lg">
+                <Center w="100%" mb="3">
+                  <VictoryLegend
+                    borderPadding={{ left: 15 }}
+                    orientation="horizontal"
+                    itemsPerRow={1}
+                    colorScale="cool"
+                    gutter={0}
+                    rowGutter={-1}
+                    padding={0}
+                    symbolSpacer={10}
+                    height={assetBreakdownData.length * 30}
+                    data={assetBreakdownData.map((labels) => {
+                      return {
+                        name: `${labels.x} (${labels.y})`,
+                      };
+                    })}
+                  />
+                </Center>
+                <Heading size={"md"} mb={4}>
                   Portfolios
                 </Heading>
                 <HStack mb="6">
@@ -157,7 +247,7 @@ export function DashboardScreen() {
                     <Icon as={Entypo} name="plus" />
                   </Pressable>
                 </HStack>
-                <Heading mb="3" fontSize="lg">
+                <Heading size={"md"} mb={4}>
                   Combined assets
                 </Heading>
                 <Box

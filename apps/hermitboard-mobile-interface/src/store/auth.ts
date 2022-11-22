@@ -25,7 +25,7 @@ export interface AuthStoreActions {
 
 const initialState: AuthStoreState = {
   session: undefined,
-  _hasHydrated: false,
+  _hasHydrated: true,
 };
 
 export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
@@ -53,7 +53,6 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
         reset: () => {
           set({
             ...initialState,
-            _hasHydrated: true,
           });
           useAuthStore.persist.clearStorage();
         },
@@ -119,13 +118,15 @@ export const useAuthStore = create<AuthStoreState & AuthStoreActions>()(
 
           return data;
         },
-        partialize: (state) => ({
-          session: {
-            token: state.session?.token,
-            userID: state.session?.userID,
-            authRoles: state.session?.authRoles,
-          },
-        }),
+        partialize: (state) => {
+          return {
+            session: {
+              token: state.session?.token,
+              userID: state.session?.userID,
+              authRoles: state.session?.authRoles,
+            },
+          };
+        },
         onRehydrateStorage: (state) => (state) => {
           state?.setHasHydrated(true);
         },

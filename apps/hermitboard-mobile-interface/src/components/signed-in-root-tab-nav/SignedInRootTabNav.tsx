@@ -91,7 +91,7 @@ export function SignedInRootTabNav() {
         />
         <SignedInRootTab.Screen
           name="Dashboard"
-          component={PortfolioDetailsScreen}
+          component={DashboardScreen}
           options={{
             tabBarAccessibilityLabel: "Trade and watchlist screen.",
             header: ({ navigation }) => (

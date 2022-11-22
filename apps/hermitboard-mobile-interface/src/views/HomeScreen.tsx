@@ -27,6 +27,7 @@ import { useInitialDataStore } from "../store/initial-data";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CreateConnectionModal } from "../components/create-connection-form/CreateConnectionModal";
+import { FocusAwareStatusBar } from "../components/FocusAwareStatusBar";
 
 export function HomeScreen({
   route,
@@ -63,10 +64,10 @@ export function HomeScreen({
 
   return (
     <>
-      <StatusBar
-        backgroundColor={colorMode === "light" ? "#4F46E5" : "coolGray.800"}
-        barStyle={colorMode === "light" ? "light-content" : "light-content"}
-      ></StatusBar>
+      <FocusAwareStatusBar
+        bgColor="#4F46E5"
+        barStyle="light-content"
+      ></FocusAwareStatusBar>
 
       <ScrollView
         w="100%"
@@ -168,7 +169,7 @@ export function HomeScreen({
                       }}
                     >
                       <Text fontSize="4xl" fontWeight="bold" color="lightText">
-                        $10.53
+                        $10546.65
                       </Text>
                     </Skeleton.Text>
                   </VStack>
