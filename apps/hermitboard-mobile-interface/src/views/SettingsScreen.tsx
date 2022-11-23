@@ -7,6 +7,7 @@ import {
   Heading,
   HStack,
   Icon,
+  Pressable,
   ScrollView,
   StatusBar,
   Text,
@@ -132,22 +133,28 @@ export function SettingsScreen() {
                 />
               </HStack>
 
-              <HStack
-                w="100%"
-                justifyContent="space-between"
-                alignItems="center"
-                borderBottomWidth={1}
-                borderBottomColor="coolGray.300"
-                py={4}
+              <Pressable
+                _pressed={{
+                  bgColor: "coolGray.200",
+                }}
               >
-                <Text>Connections</Text>
-                <Icon
-                  as={FontAwesome}
-                  name="angle-right"
-                  size="sm"
-                  color="muted.500"
-                />
-              </HStack>
+                <HStack
+                  w="100%"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  borderBottomWidth={1}
+                  borderBottomColor="coolGray.300"
+                  py={4}
+                >
+                  <Text>Connections</Text>
+                  <Icon
+                    as={FontAwesome}
+                    name="angle-right"
+                    size="sm"
+                    color="muted.500"
+                  />
+                </HStack>
+              </Pressable>
 
               <HStack
                 w="100%"

@@ -1,7 +1,9 @@
 import {
   Box,
+  Button,
   Center,
   Container,
+  FlatList,
   Heading,
   HStack,
   Icon,
@@ -211,68 +213,143 @@ export function DashboardScreen() {
                     })}
                   />
                 </Center>
-                <Heading size={"md"} mb={4}>
-                  Portfolios
-                </Heading>
-                <HStack mb="6">
+
+                <HStack>
+                  <Heading size={"md"} mb={4} mr={3}>
+                    Portfolios
+                  </Heading>
                   <Pressable
-                    w={24}
-                    h={24}
-                    mr={5}
-                    bgColor="coolGray.200"
-                    borderRadius="lg"
-                    p={4}
-                    justifyContent="center"
-                    alignItems="flex-end"
-                  >
-                    <Text fontWeight="bold" mb="1">
-                      Portfolio 1
-                    </Text>
-                    <Text color="red.600">-12.6%</Text>
-                  </Pressable>
-                  <Pressable
-                    w={24}
-                    h={24}
-                    bgColor="transparent"
-                    borderWidth={1}
-                    borderStyle="dotted"
-                    borderRadius="lg"
-                    p={4}
+                    h={8}
+                    bgColor={"primary.600"}
+                    borderRadius="full"
+                    px={2}
                     justifyContent="center"
                     alignItems="center"
                   >
-                    <Text fontWeight="bold" mb="1">
-                      New
-                    </Text>
-                    <Icon as={Entypo} name="plus" />
+                    <HStack justifyContent="center" alignItems="center">
+                      <Text
+                        fontWeight="medium"
+                        color="lightText"
+                        mr={0.5}
+                        ml={1}
+                        mt={-0.5}
+                      >
+                        New
+                      </Text>
+                      <Icon
+                        as={Entypo}
+                        color="lightText"
+                        name="plus"
+                        mt={0.5}
+                      />
+                    </HStack>
                   </Pressable>
                 </HStack>
+
+                <VStack
+                  w="100%"
+                  mb="6"
+                  borderRadius={"md"}
+                  borderColor="coolGray.200"
+                  borderWidth={1}
+                >
+                  <Pressable
+                    w="100%"
+                    px={4}
+                    py={2}
+                    h={12}
+                    borderBottomWidth={1}
+                    borderBottomColor="coolGray.200"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <HStack
+                      w={"100%"}
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
+                      <Text>Portfolio 1</Text>
+                      <HStack>
+                        <Icon
+                          as={FontAwesome}
+                          name="caret-down"
+                          size={6}
+                          color="red.600"
+                          mr={-1.5}
+                        />
+                        <Text color="red.600">-65.6%</Text>
+                      </HStack>
+                    </HStack>
+                  </Pressable>
+                </VStack>
+
                 <Heading size={"md"} mb={4}>
                   Combined assets
                 </Heading>
-                <Box
+                <VStack
                   w="100%"
-                  borderColor="coolGray.300"
+                  mb="6"
+                  borderRadius={"md"}
+                  borderColor="coolGray.200"
                   borderWidth={1}
-                  borderRadius="md"
-                  p={4}
                 >
-                  <HStack alignItems="center" justifyContent="space-between">
-                    <Text mr="4" fontSize="md" color="darkText">
-                      Ethereum
-                    </Text>
-                    <HStack bgColor="red.200" borderRadius="full" px={2} py={1}>
-                      <Icon
-                        as={FontAwesome}
-                        name="caret-down"
-                        size={6}
-                        color="red.600"
-                        mr={-1.5}
-                      />
-                      <Text color="red.600">-12.6%</Text>
+                  <Pressable
+                    w="100%"
+                    px={4}
+                    py={2}
+                    h={12}
+                    borderBottomWidth={1}
+                    borderBottomColor="coolGray.200"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <HStack
+                      w="100%"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Text color="darkText">Ethereum</Text>
+                      <HStack>
+                        <Icon
+                          as={FontAwesome}
+                          name="caret-down"
+                          size={6}
+                          color="red.600"
+                          mr={-1.5}
+                        />
+                        <Text color="red.600">-68.6%</Text>
+                      </HStack>
                     </HStack>
-                  </HStack>
-                </Box>
+                  </Pressable>
+                  <Pressable
+                    w="100%"
+                    px={4}
+                    py={2}
+                    h={12}
+                    borderBottomWidth={1}
+                    borderBottomColor="coolGray.200"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <HStack
+                      w="100%"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <Text color="darkText">Bitcoin</Text>
+                      <HStack>
+                        <Icon
+                          as={FontAwesome}
+                          name="caret-down"
+                          size={6}
+                          color="red.600"
+                          mr={-1.5}
+                        />
+                        <Text color="red.600">-64.5%</Text>
+                      </HStack>
+                    </HStack>
+                  </Pressable>
+                </VStack>
               </Container>
             </Center>
           </Box>

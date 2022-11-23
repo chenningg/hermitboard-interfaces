@@ -57,7 +57,7 @@ export function CreateConnectionModal(props: {
         }}
         avoidKeyboard
       >
-        <Modal.Content maxWidth="90%" maxH="3/4">
+        <Modal.Content width="90%" maxH="3/4">
           <Modal.CloseButton />
           <Modal.Header>Create connection</Modal.Header>
           <Modal.Body>

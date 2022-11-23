@@ -95,6 +95,8 @@ export function CreateConnectionFormChooseSource(props: {
                     py="2"
                     key={index}
                     _pressed={{
+                      borderColor:
+                        colorMode === "light" ? "primary.600" : "primary.50",
                       bgColor:
                         colorMode === "light" ? "primary.50" : "primary.50",
                     }}
@@ -105,7 +107,9 @@ export function CreateConnectionFormChooseSource(props: {
                         uri: value?.node?.icon ?? "",
                       }}
                       alt="Alternate Text"
-                      size="xs"
+                      width={20}
+                      height={8}
+                      resizeMode="contain"
                     />
                   </Pressable>
                 );

@@ -13,6 +13,7 @@ import { BudgetScreen } from "../../views/BudgetScreen";
 import { DashboardScreen } from "../../views/DashboardScreen";
 import { CommunityScreen } from "../../views/CommunityScreen";
 import { PortfolioDetailsScreen } from "../../views/PortfolioDetailsScreen";
+import { AssetDetailsScreen } from "../../views/AssetDetailsScreen";
 
 // Create the root tab navigator.
 const SignedInRootTab = createBottomTabNavigator<SignedInRootTabParamList>();

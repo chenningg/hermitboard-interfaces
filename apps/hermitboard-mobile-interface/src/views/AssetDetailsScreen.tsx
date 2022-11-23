@@ -5,6 +5,7 @@ import {
   Heading,
   HStack,
   Icon,
+  Image,
   Pressable,
   ScrollView,
   Skeleton,
@@ -17,6 +18,7 @@ import {
   VictoryArea,
   VictoryAxis,
   VictoryChart,
+  VictoryGroup,
   VictoryLabel,
   VictoryLegend,
   VictoryLine,
@@ -29,7 +31,7 @@ import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 
-export function PortfolioDetailsScreen() {
+export function AssetDetailsScreen() {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
 
   const netWorthData = [
@@ -42,12 +44,16 @@ export function PortfolioDetailsScreen() {
 
   const assetBreakdownData = [
     {
-      x: "Cryptocurrencies",
-      y: "60%",
+      x: "Binance",
+      y: "33%",
     },
     {
-      x: "Cash & Cash Equivalents",
-      y: "40%",
+      x: "Uniswap",
+      y: "33%",
+    },
+    {
+      x: "Pancakeswap",
+      y: "33%",
     },
   ];
 
@@ -80,13 +86,20 @@ export function PortfolioDetailsScreen() {
                     size="2xl"
                     color="darkText"
                   />
-                  <Heading fontSize="xl">Portfolio 1</Heading>
+                  <Heading fontSize="xl">Ethereum</Heading>
                 </HStack>
-                <Pressable>
-                  <Icon as={Feather} name="edit" size="lg" color="darkText" />
-                </Pressable>
               </HStack>
-              <VStack w="100%" justifyContent="center" alignItems="center">
+
+              <VStack
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                mb={8}
+                borderRadius={"md"}
+                borderWidth={1}
+                borderColor="coolGray.300"
+                p={4}
+              >
                 <Text
                   color="darkText"
                   opacity={0.6}
@@ -94,8 +107,47 @@ export function PortfolioDetailsScreen() {
                   fontWeight="medium"
                   fontSize="sm"
                 >
-                  Portfolio balance
+                  Portfolio 1's holdings
                 </Text>
+                <Skeleton.Text
+                  justifyContent="center"
+                  alignItems="center"
+                  isLoaded={true}
+                  fadeDuration={0.5}
+                  startColor="coolGray.50"
+                  endColor="coolGray.200"
+                  opacity={0.7}
+                  lines={1}
+                  _line={{
+                    h: 12,
+                    w: 40,
+                    mt: 3,
+                    mb: 2,
+                    borderRadius: "lg",
+                  }}
+                  mr={3}
+                >
+                  <VStack
+                    mb="1"
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                  >
+                    <Text
+                      fontSize="3xl"
+                      fontWeight="bold"
+                      color="darkText"
+                      mb={-1}
+                    >
+                      2.5 Ethereum
+                    </Text>
+                  </VStack>
+                </Skeleton.Text>
+              </VStack>
+
+              <Heading size={"md"} mb={4}>
+                Current Price
+              </Heading>
+              <VStack w="100%" justifyContent="center" alignItems="center">
                 <Skeleton.Text
                   justifyContent="center"
                   alignItems="center"
@@ -119,18 +171,18 @@ export function PortfolioDetailsScreen() {
                     justifyContent={"center"}
                     alignItems={"center"}
                   >
-                    <Text fontSize="4xl" fontWeight="bold" color="darkText">
-                      $10546.65
+                    <Text fontSize="2xl" fontWeight="medium" color="darkText">
+                      $1604.67
                     </Text>
                     <HStack borderRadius="full">
                       <Icon
                         as={FontAwesome}
-                        name="caret-down"
+                        name="caret-up"
                         size={6}
-                        color="red.600"
+                        color="green.600"
                         mr={-1}
                       />
-                      <Text color="red.600">$20112.22 (-65.6%)</Text>
+                      <Text color="green.600">$36.37 (2.32%)</Text>
                     </HStack>
                   </VStack>
                 </Skeleton.Text>
@@ -178,8 +230,9 @@ export function PortfolioDetailsScreen() {
             <Center w="100%">
               <Container w="100%" py={4}>
                 <Heading size={"md"} mb={4}>
-                  Asset breakdown
+                  Holdings
                 </Heading>
+
                 <Center w="100%" mb="4">
                   <VictoryPie
                     height={250}
@@ -189,10 +242,7 @@ export function PortfolioDetailsScreen() {
                       duration: 400,
                     }}
                     colorScale="cool"
-                    data={[
-                      { x: "Cryptocurrencies", y: 60 },
-                      { x: "ss", y: 40 },
-                    ]}
+                    data={assetBreakdownData}
                     labels={() => null}
                     // labelComponent={
                     //   <VictoryLabel
@@ -202,7 +252,21 @@ export function PortfolioDetailsScreen() {
                     //   />
                     // }
                   />
+                  <VictoryLabel
+                    textAnchor="middle"
+                    verticalAnchor="middle"
+                    style={{
+                      color: "#27272a",
+                      fontSize: 10,
+                      fontWeight: "600",
+                      lineHeight: 40,
+                    }}
+                    x={0}
+                    y={0}
+                    text="Pie!ssssss"
+                  />
                 </Center>
+
                 <Center w="100%" mb="3">
                   <VictoryLegend
                     borderPadding={{ left: 15 }}
@@ -222,9 +286,6 @@ export function PortfolioDetailsScreen() {
                   />
                 </Center>
 
-                <Heading size={"md"} mb={4}>
-                  Portfolio assets
-                </Heading>
                 <VStack
                   w="100%"
                   mb="6"
@@ -250,16 +311,22 @@ export function PortfolioDetailsScreen() {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Text color="darkText">Ethereum</Text>
                       <HStack>
-                        <Icon
-                          as={FontAwesome}
-                          name="caret-down"
-                          size={6}
-                          color="red.600"
-                          mr={-1.5}
+                        <Image
+                          source={{
+                            uri: "https://upload.wikimedia.org/wikipedia/commons/5/57/Binance_Logo.png",
+                          }}
+                          alt="Alternate Text"
+                          width={6}
+                          height={6}
+                          resizeMode="contain"
+                          borderRadius="full"
+                          mr={2}
                         />
-                        <Text color="red.600">-68.6%</Text>
+                        <Text color="darkText">Binance</Text>
+                      </HStack>
+                      <HStack>
+                        <Text color="darkText">0.83</Text>
                       </HStack>
                     </HStack>
                   </Pressable>
@@ -278,16 +345,56 @@ export function PortfolioDetailsScreen() {
                       alignItems="center"
                       justifyContent="space-between"
                     >
-                      <Text color="darkText">Bitcoin</Text>
                       <HStack>
-                        <Icon
-                          as={FontAwesome}
-                          name="caret-down"
-                          size={6}
-                          color="red.600"
-                          mr={-1.5}
+                        <Image
+                          source={{
+                            uri: "https://cryptologos.cc/logos/pancakeswap-cake-logo.png",
+                          }}
+                          alt="Alternate Text"
+                          width={6}
+                          height={6}
+                          resizeMode="contain"
+                          borderRadius="full"
+                          mr={2}
                         />
-                        <Text color="red.600">-64.5%</Text>
+                        <Text color="darkText">Pancakeswap</Text>
+                      </HStack>
+                      <HStack>
+                        <Text color="darkText">0.83</Text>
+                      </HStack>
+                    </HStack>
+                  </Pressable>
+                  <Pressable
+                    w="100%"
+                    px={4}
+                    py={2}
+                    h={12}
+                    borderBottomWidth={1}
+                    borderBottomColor="coolGray.200"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <HStack
+                      w="100%"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <HStack>
+                        <Image
+                          source={{
+                            uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Uniswap_Logo.svg/1026px-Uniswap_Logo.svg.png",
+                          }}
+                          alt="Alternate Text"
+                          width={6}
+                          height={6}
+                          resizeMode="contain"
+                          borderRadius="full"
+                          mr={2}
+                        />
+                        <Text color="darkText">Uniswap</Text>
+                      </HStack>
+                      <HStack>
+                        <Text color="darkText">0.83</Text>
                       </HStack>
                     </HStack>
                   </Pressable>
