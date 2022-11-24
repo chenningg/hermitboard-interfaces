@@ -167,6 +167,7 @@ export function LoginScreen({
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => (
                           <Input
+                            type="password"
                             onBlur={onBlur}
                             placeholder="Password"
                             onChangeText={(val) => onChange(val)}

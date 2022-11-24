@@ -11,9 +11,10 @@ import { SignedInRootTabHeader } from "./SignedInRootTabHeader";
 import { Box } from "native-base";
 import { BudgetScreen } from "../../views/BudgetScreen";
 import { DashboardScreen } from "../../views/DashboardScreen";
-import { CommunityScreen } from "../../views/CommunityScreen";
+import { CommunityContactsScreen } from "../../views/CommunityContactsScreen";
 import { PortfolioDetailsScreen } from "../../views/PortfolioDetailsScreen";
 import { AssetDetailsScreen } from "../../views/AssetDetailsScreen";
+import { CommunityForumsScreen } from "../../views/CommunityForumsScreen";
 
 // Create the root tab navigator.
 const SignedInRootTab = createBottomTabNavigator<SignedInRootTabParamList>();
@@ -92,7 +93,7 @@ export function SignedInRootTabNav() {
         />
         <SignedInRootTab.Screen
           name="Dashboard"
-          component={DashboardScreen}
+          component={AssetDetailsScreen}
           options={{
             tabBarAccessibilityLabel: "Trade and watchlist screen.",
             header: ({ navigation }) => (
@@ -122,7 +123,7 @@ export function SignedInRootTabNav() {
         />
         <SignedInRootTab.Screen
           name="Community"
-          component={CommunityScreen}
+          component={CommunityContactsScreen}
           options={{
             tabBarAccessibilityLabel: "Friends and community screen.",
             header: ({ navigation }) => (

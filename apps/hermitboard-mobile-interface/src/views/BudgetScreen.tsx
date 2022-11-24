@@ -14,12 +14,15 @@ import {
   Heading,
   Avatar,
   ScrollView,
+  Progress,
 } from "native-base";
 import React from "react";
 import { useAppSettingsStore } from "../store/app-settings";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 export function BudgetScreen() {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
@@ -127,6 +130,184 @@ export function BudgetScreen() {
                     </Text>
                   </VStack>
                 </Center>
+
+                <Center
+                  w="100%"
+                  mb={4}
+                  borderRadius="md"
+                  borderWidth={1}
+                  borderColor="coolGray.200"
+                  p={4}
+                >
+                  <VStack
+                    w="100%"
+                    justifyContent="center"
+                    alignItems="flex-start"
+                    mt={-1}
+                  >
+                    <HStack
+                      w="100%"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      mb={2}
+                    >
+                      <Text fontWeight="medium">Daily budget</Text>
+                      <Pressable>
+                        <Icon
+                          as={Feather}
+                          name="edit"
+                          size="sm"
+                          color="darkText"
+                        />
+                      </Pressable>
+                    </HStack>
+                    <HStack
+                      w="100%"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                    >
+                      <Center
+                        h={6}
+                        w={6}
+                        borderRadius="full"
+                        backgroundColor="emerald.600"
+                        mr={3}
+                      >
+                        <Icon
+                          as={MaterialCommunityIcons}
+                          name="food"
+                          color="lightText"
+                          size="sm"
+                        />
+                      </Center>
+                      <Progress
+                        flex={1}
+                        size="sm"
+                        value={45}
+                        colorScheme="emerald"
+                      />
+                    </HStack>
+                  </VStack>
+                </Center>
+
+                <Center
+                  w="100%"
+                  mb={4}
+                  borderRadius="md"
+                  borderWidth={1}
+                  borderColor="coolGray.200"
+                  p={4}
+                >
+                  <VStack
+                    w="100%"
+                    justifyContent="center"
+                    alignItems="flex-start"
+                    mt={-1}
+                  >
+                    <HStack
+                      w="100%"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      mb={2}
+                    >
+                      <Text fontWeight="medium">Monthly budget</Text>
+                      <Pressable>
+                        <Icon
+                          as={Feather}
+                          name="edit"
+                          size="sm"
+                          color="darkText"
+                        />
+                      </Pressable>
+                    </HStack>
+                    <HStack
+                      w="100%"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                      mb={1}
+                    >
+                      <Center
+                        h={6}
+                        w={6}
+                        borderRadius="full"
+                        backgroundColor="orange.500"
+                        mr={3}
+                      >
+                        <Icon
+                          as={MaterialIcons}
+                          name="local-grocery-store"
+                          color="lightText"
+                          size="sm"
+                        />
+                      </Center>
+                      <Progress
+                        flex={1}
+                        size="sm"
+                        value={100}
+                        colorScheme="red"
+                      />
+                    </HStack>
+
+                    <HStack
+                      w="100%"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                      mb={1}
+                    >
+                      <Center
+                        h={6}
+                        w={6}
+                        borderRadius="full"
+                        backgroundColor="emerald.600"
+                        mr={3}
+                      >
+                        <Icon
+                          as={MaterialCommunityIcons}
+                          name="food"
+                          color="lightText"
+                          size="sm"
+                        />
+                      </Center>
+                      <Progress
+                        flex={1}
+                        size="sm"
+                        value={65}
+                        colorScheme="emerald"
+                      />
+                    </HStack>
+
+                    <HStack
+                      w="100%"
+                      justifyContent="flex-start"
+                      alignItems="center"
+                    >
+                      <Center
+                        h={6}
+                        w={6}
+                        borderRadius="full"
+                        backgroundColor="rose.500"
+                        mr={3}
+                      >
+                        <Icon
+                          as={Ionicons}
+                          name="ios-game-controller"
+                          color="lightText"
+                          size="sm"
+                        />
+                      </Center>
+                      <Progress
+                        flex={1}
+                        size="sm"
+                        value={25}
+                        colorScheme="emerald"
+                      />
+                    </HStack>
+                  </VStack>
+                </Center>
+
+                <Heading size={"md"} mb={4}>
+                  Contacts
+                </Heading>
 
                 <Center
                   w="100%"
