@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import {
   CreateConnectionDocument,
   CreateConnectionInput,
-  GetAccountPortfoliosDocument,
+  GetPortfoliosDocument,
 } from "../../graphql/generated";
 import { useCreateConnectionFormStore } from "./create-connection-store";
 import { useMutation, useQuery } from "urql";
@@ -31,8 +31,8 @@ export function CreateConnectionFormConnectionDetails(props: {
   const createConnectionFormStore = useCreateConnectionFormStore();
 
   // Query for user portfolios.
-  const [getAccountPortfoliosResult, getAccountPortfolios] = useQuery({
-    query: GetAccountPortfoliosDocument,
+  const [getPortfoliosResult, getPortfolios] = useQuery({
+    query: GetPortfoliosDocument,
     variables: {
       userID: userID ?? "",
     },
@@ -66,10 +66,10 @@ export function CreateConnectionFormConnectionDetails(props: {
 
     // Get the full state and then submit.
     let createConnectionInput = {
-      accessToken: createConnectionFormStore.accessToken,
-      name: createConnectionFormStore.name,
-      portfolioIDs: createConnectionFormStore.portfolioIDs,
-      refreshToken: createConnectionFormStore.refreshToken,
+      accessToken: data.accessToken,
+      name: data.name,
+      portfolioIDs: data.portfolioIDs,
+      refreshToken: data.refreshToken,
       sourceID: createConnectionFormStore.sourceID,
     };
 
@@ -86,6 +86,7 @@ export function CreateConnectionFormConnectionDetails(props: {
 
       // Successful, we can close the modal.
       if (result.data) {
+        connectionToast.closeAll();
         connectionToast.show({
           render: () => {
             return (
@@ -101,17 +102,18 @@ export function CreateConnectionFormConnectionDetails(props: {
 
         // Reset the state and close modal.
         createConnectionFormStore.reset();
+        props.setConnectionFormStage("chooseSource");
         props.setOpen(false);
       }
     });
   });
 
-  if (getAccountPortfoliosResult.fetching) {
+  if (getPortfoliosResult.fetching) {
     return <Text>Fetching portfolios...</Text>;
   }
 
-  if (getAccountPortfoliosResult.error) {
-    return <Text>{getAccountPortfoliosResult.error.message}</Text>;
+  if (getPortfoliosResult.error) {
+    return <Text>{getPortfoliosResult.error.message}</Text>;
   }
 
   return (
@@ -213,17 +215,15 @@ export function CreateConnectionFormConnectionDetails(props: {
                 }}
                 alignItems="flex-start"
               >
-                {getAccountPortfoliosResult.data?.portfolios.edges?.map(
-                  (edge) => {
-                    if (edge?.node) {
-                      return (
-                        <Checkbox value={edge?.node.id} my="1">
-                          {edge?.node.name}
-                        </Checkbox>
-                      );
-                    }
+                {getPortfoliosResult.data?.portfolios.edges?.map((edge) => {
+                  if (edge?.node) {
+                    return (
+                      <Checkbox value={edge?.node.id} my="1">
+                        {edge?.node.name}
+                      </Checkbox>
+                    );
                   }
-                )}
+                })}
               </Checkbox.Group>
             )}
             name="portfolioIDs"
@@ -250,7 +250,13 @@ export function CreateConnectionFormConnectionDetails(props: {
           >
             Back
           </Button>
-          <Button borderRadius="lg">Create</Button>
+          <Button
+            borderRadius="lg"
+            onPress={handleCreateConnection}
+            disabled={createConnectionResult.fetching}
+          >
+            {createConnectionResult.fetching ? "Creating..." : "Create"}
+          </Button>
         </HStack>
       </VStack>
     </>

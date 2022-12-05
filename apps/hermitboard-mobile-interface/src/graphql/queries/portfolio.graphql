@@ -1,10 +1,19 @@
-query GetAccountPortfolios($userID: ID!) {
-  portfolios(where: { id: $userID, isVisible: true }) {
+query GetPortfolios($userID: ID!) {
+  portfolios(where: { accountID: $userID, isVisible: true }) {
     edges {
       node {
         id
         name
       }
     }
+  }
+}
+
+mutation CreatePortfolio($input: CreatePortfolioInput!) {
+  createPortfolio(input: $input) {
+    id
+    name
+    isPublic
+    isVisible
   }
 }

@@ -1,3 +1,18 @@
+query GetConnections($userID: ID!) {
+  connections(where: { accountID: $userID }) {
+    edges {
+      node {
+        id
+        name
+        source {
+          name
+          icon
+        }
+      }
+    }
+  }
+}
+
 mutation CreateConnection($input: CreateConnectionInput!) {
   createConnection(input: $input) {
     id

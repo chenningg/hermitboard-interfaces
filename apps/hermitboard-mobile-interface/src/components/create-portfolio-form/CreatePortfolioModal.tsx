@@ -24,24 +24,24 @@ import {
   CreateConnectionInput,
 } from "../../graphql/generated/index";
 import { CustomToast } from "../CustomToast";
-import { CreateConnectionFormChooseSource } from "./CreateConnectionFormChooseSource";
-import { CreateConnectionFormConnectionDetails } from "./CreateConnectionFormConnectionDetails";
-import { useCreateConnectionFormStore } from "./create-connection-store";
+import { CreatePortfolioConnections } from "./CreatePortfolioConnections";
+import { CreatePortfolioDetails } from "./CreatePortfolioDetails";
+import { useCreatePortfolioFormStore } from "./create-portfolio-store";
 import { State } from "react-native-gesture-handler";
 
-export function CreateConnectionModal(props: {
+export function CreatePortfolioModal(props: {
   open: boolean;
   setOpen: (openState: boolean) => void;
 }) {
   const colorMode = useAppSettingsStore((state) => state.colorMode);
-  const resetCreateConnectionStore = useCreateConnectionFormStore(
+  const resetCreatePortfolioFormStore = useCreatePortfolioFormStore(
     (state) => state.reset
   );
 
   // Track which stage of form we are at.
-  const [connectionFormStage, setConnectionFormStage] = useState<
-    "chooseSource" | "connectionDetails"
-  >("chooseSource");
+  const [portfolioFormStage, setportfolioFormStage] = useState<
+    "portfolioDetails" | "chooseConnections"
+  >("portfolioDetails");
 
   return (
     <>
@@ -49,8 +49,8 @@ export function CreateConnectionModal(props: {
         isOpen={props.open}
         onClose={() => {
           // Reset all state.
-          resetCreateConnectionStore();
-          setConnectionFormStage("chooseSource");
+          resetCreatePortfolioFormStore();
+          setportfolioFormStage("portfolioDetails");
           props.setOpen(false);
         }}
         _backdrop={{
@@ -60,16 +60,16 @@ export function CreateConnectionModal(props: {
       >
         <Modal.Content width="90%" maxH="3/4">
           <Modal.CloseButton />
-          <Modal.Header>Create connection</Modal.Header>
+          <Modal.Header>Create portfolio</Modal.Header>
           <Modal.Body>
-            {connectionFormStage === "chooseSource" ? (
-              <CreateConnectionFormChooseSource
-                setConnectionFormStage={setConnectionFormStage}
+            {portfolioFormStage === "portfolioDetails" ? (
+              <CreatePortfolioDetails
+                setPortfolioFormStage={setportfolioFormStage}
               />
             ) : (
-              <CreateConnectionFormConnectionDetails
+              <CreatePortfolioConnections
                 setOpen={props.setOpen}
-                setConnectionFormStage={setConnectionFormStage}
+                setPortfolioFormStage={setportfolioFormStage}
               />
             )}
           </Modal.Body>

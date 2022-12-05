@@ -16,8 +16,11 @@ import {
 } from "native-base";
 import React from "react";
 import { Controller } from "react-hook-form";
-import { useQuery } from "urql";
-import { GetSourcesDocument } from "../../graphql/generated";
+import { useMutation, useQuery } from "urql";
+import {
+  CreateConnectionDocument,
+  GetSourcesDocument,
+} from "../../graphql/generated";
 import { useAppSettingsStore } from "../../store/app-settings";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useCreateConnectionFormStore } from "./create-connection-store";

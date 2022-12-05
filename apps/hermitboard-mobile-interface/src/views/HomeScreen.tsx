@@ -28,6 +28,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { CreateConnectionModal } from "../components/create-connection-form/CreateConnectionModal";
 import { FocusAwareStatusBar } from "../components/FocusAwareStatusBar";
+import { CreatePortfolioModal } from "../components/create-portfolio-form/CreatePortfolioModal";
 
 export function HomeScreen({
   route,
@@ -60,6 +61,10 @@ export function HomeScreen({
 
   // Props for creating a new connection.
   const [createConnectionModalOpen, setCreateConnectionModalOpen] =
+    useState(false);
+
+  // Props for creating a new portfolio.
+  const [createPortfolioModalOpen, setcreatePortfolioModalOpen] =
     useState(false);
 
   return (
@@ -195,7 +200,14 @@ export function HomeScreen({
                     borderWidth={1}
                     borderColor="coolGray.300"
                     borderRadius="lg"
+                    onPress={() => {
+                      setcreatePortfolioModalOpen(true);
+                    }}
                   >
+                    <CreatePortfolioModal
+                      open={createPortfolioModalOpen}
+                      setOpen={setcreatePortfolioModalOpen}
+                    />
                     <VStack justifyContent="center" alignItems="center">
                       <Icon
                         as={Ionicons}
